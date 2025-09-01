@@ -1,0 +1,53 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.bg-all { 
+  background-color: #D3DAD9;
+}
+.text-main {
+  color: rgb(33, 32, 36);
+}
+
+
+.text-header {
+  color: #28282b;
+}
+
+.menu-bar {
+  background: oklch(36.306% 0.02344 137.956); /* domyślnie białe */
+}
+.menu-bar--active {
+  background:  oklch(49.075% 0.03683 139.499); /* Twój kolor aktywnej zakładki */
+}
+.me-2 > button {
+  color: #302727;
+}
+.me-2 >button.active,button:focus {
+  background: #a9acac;
+}
+.me-2 > button:hover {
+  background: rgb(146, 150, 150);
+}
+.me-2 > a {
+  color: #302727;
+  background: transparent;
+  transition: background 0.2s;
+}
+.me-2 > a:hover {
+  background: #bcbebe;
+}
+.p-6 {
+  padding: 1.5rem;
+  color: #242c24;
+}
+.tab-title {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  text-align: center;
+  color: #28282b;
+  margin-top: 2.8rem;
+  margin-bottom: 3rem;
+}
+
