@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Tło i tekst */
 .bg-all { 
   background-color: #D3DAD9;
 }
@@ -9,40 +10,63 @@
   color: rgb(33, 32, 36);
 }
 
-
+/* Nagłówki */
 .text-header {
   color: #28282b;
 }
 
-.menu-bar {
-  background: oklch(36.306% 0.02344 137.956); /* domyślnie białe */
+/* Tab bar (menu) */
+.tab-bar {
+  font-size: 1.2em;
+  padding-top: 1.2em;
+  padding-bottom: 0.1em; /* było 1.2em, zmniejsz na 0.2em */
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  position: relative;
+  margin-bottom: -1px;
 }
-.menu-bar--active {
-  background:  oklch(49.075% 0.03683 139.499); /* Twój kolor aktywnej zakładki */
-}
-.me-2 > button {
+
+/* Pojedynczy przycisk tab */
+.tab-btn {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  border-bottom: 2px solid transparent;
+  background: transparent;
+  transition: background 0.2s, color 0.2s;
+  font-size: inherit;
+  font-family: inherit;
+  cursor: pointer;
+  border-radius: 0;
   color: #302727;
 }
-.me-2 >button.active,button:focus {
+
+.tab-btn.active,
+.tab-btn:focus {
   background: #a9acac;
+  outline: none;
 }
-.me-2 > button:hover {
+
+.tab-btn:hover {
   background: rgb(146, 150, 150);
 }
-.me-2 > a {
-  color: #302727;
-  background: transparent;
-  transition: background 0.2s;
+
+/* Podkreślenie aktywnej zakładki */
+.menu-bar {
+  position: absolute;
+  bottom: 15px; /* zamiast 0, podnosi podkreślenie bliżej tekstu */
+  height: 0.25rem;
+  border-radius: 0.1rem;
+  transition: all 0.3s;
+  z-index: 2;
 }
-.me-2 > a:hover {
-  background: #bcbebe;
+.menu-bar--active {
+  background:  #566652;
 }
-.p-6 {
-  padding: 1.5rem;
-  color: #242c24;
-}
+
+/* Tytuły sekcji pod tabami */
 .tab-title {
-  font-size: 2rem;
+  font-size: 3rem;
   font-weight: bold;
   margin-bottom: 1rem;
   text-align: center;
@@ -51,3 +75,111 @@
   margin-bottom: 3rem;
 }
 
+/* Główny kontent */
+.main-content {
+  margin-left: 15%;
+  margin-right: 15%;
+}
+@media (max-width: 900px) {
+  .main-content {
+    margin-left: 5%;
+    margin-right: 5%;
+  }
+}
+
+/* Galeria zdjęć */
+.gallery-bio {
+  max-width: 1000px;
+  margin: 0 auto 2rem auto;
+  text-align: center;
+  font-size: 1.5rem;
+  color: rgb(60, 60, 63);
+  padding-left: 3%;
+  padding-right: 3%;
+}
+
+/* Instagram link w bio */
+.instagram {
+  margin-top: 1.5rem;
+}
+.instagram a {
+  color:  #426b38;
+  text-decoration: underline;
+  font-weight: bold;
+  transition: color 0.2s;
+}
+.instagram a:hover {
+  text-decoration: none;
+}
+
+/* Masonry grid */
+.masonry {
+  column-count: 3;
+  column-gap: 1.5rem;
+  margin-left: 0;
+  margin-right: 0;
+}
+@media (max-width: 900px) {
+  .masonry {
+    column-count: 2;
+  }
+}
+@media (max-width: 600px) {
+  .masonry {
+    column-count: 1;
+  }
+}
+.masonry-item {
+  break-inside: avoid;
+  margin-bottom: 1.5rem;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  cursor: pointer;
+}
+.masonry-item img {
+  width: 100%;
+  display: block;
+  transition: transform 0.3s, box-shadow 0.3s;
+  position: relative;
+  z-index: 1;
+}
+.masonry-item img:hover {
+  transform: scale(1.08);
+  z-index: 2;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+}
+
+/* Lightbox */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+  cursor: zoom-out;
+}
+.lightbox-img {
+  max-height: 90vh;
+  max-width: 90vw;
+  box-shadow: 0 0 32px #000;
+  background: #fff;
+}
+
+.text-block {
+  text-indent: 2em;
+  text-align: left;
+  margin-bottom: 1.5rem;
+  color: rgb(60, 60, 63);
+}
+.text-block a {
+  color: #426b38;
+  text-decoration: underline;
+  font-weight: bold;
+  transition: color 0.5s;
+}
+.text-block a:hover {
+  text-decoration: none;
+  color: #28282b;
+}

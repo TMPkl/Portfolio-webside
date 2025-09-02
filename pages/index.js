@@ -1,33 +1,56 @@
 import { useState, useRef, useEffect } from "react"
+import fs from "fs";
+import path from "path";
 
-export default function Tabs() {
-  const [activeTab, setActiveTab] = useState("about")
+export async function getStaticProps() {
+  const galleryDir = path.join(process.cwd(), "public/gallery");
+  const files = fs.readdirSync(galleryDir);
+  const images = files
+    .filter((file) => /\.(jpe?g|png|gif|webp)$/i.test(file))
+    .map((file) => `/gallery/${file}`);
+
+  return { props: { images } };
+}
+
+export default function Tabs({ images = [] }) {
+  // Domyślnie zawsze "about" (SSR)
+  const [activeTab, setActiveTab] = useState("about");
+  const [selected, setSelected] = useState(null);
+
   const tabRefs = {
     about: useRef(null),
     projects: useRef(null),
+    photos: useRef(null),
     "about Website": useRef(null),
     contact: useRef(null),
-  }
-  const [underlineStyle, setUnderlineStyle] = useState({ left: 0, width: 0 })
+  };
+  const [underlineStyle, setUnderlineStyle] = useState({ left: 0, width: 0 });
+
+  // Po zamontowaniu komponentu ustaw tab z query stringa (tylko na kliencie)
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const tab = params.get("tab") || "about";
+    setActiveTab(tab);
+  }, []);
 
   useEffect(() => {
-    const ref = tabRefs[activeTab]
+    const ref = tabRefs[activeTab];
     if (ref && ref.current) {
       setUnderlineStyle({
         left: ref.current.offsetLeft,
         width: ref.current.offsetWidth,
-      })
+      });
     }
-  }, [activeTab])
+  }, [activeTab]);
 
   return (
     <div className="bg-all min-h-screen text-main relative text-sm font-medium text-center border-b border-gray-200 dark:text-gray-400 dark:border-gray-700">
-      <ul className="flex  flex-wrap -mb-px justify-center relative">
+      <ul className="tab-bar">
         <li className="me-2">
           <button
             ref={tabRefs.about}
             onClick={() => setActiveTab("about")}
-            className={`inline-block p-4 border-b-2 bg-transparent transition${activeTab === "about" ? " active" : ""}`}
+            className={`tab-btn${activeTab === "about" ? " active" : ""}`}
           >
             About me
           </button>
@@ -36,25 +59,25 @@ export default function Tabs() {
           <button
             ref={tabRefs.projects}
             onClick={() => setActiveTab("projects")}
-            className={`inline-block p-4 border-b-2 bg-transparent transition${activeTab === "projects" ? " active" : ""}`}
+            className={`tab-btn${activeTab === "projects" ? " active" : ""}`}
           >
             Projects
           </button>
         </li>
         <li className="me-2">
-          <a
-            href="/photos"
-            className="inline-block p-4 border-b-2 bg-transparent transition"
-            style={{ textDecoration: "none" }}
+          <button
+            ref={tabRefs.photos}
+            onClick={() => setActiveTab("photos")}
+            className={`tab-btn${activeTab === "photos" ? " active" : ""}`}
           >
             Photos
-          </a>
+          </button>
         </li>
         <li className="me-2">
           <button
             ref={tabRefs["about Website"]}
             onClick={() => setActiveTab("about Website")}
-            className={`inline-block p-4 border-b-2 bg-transparent transition${activeTab === "about Website" ? " active" : ""}`}
+            className={`tab-btn${activeTab === "about Website" ? " active" : ""}`}
           >
             Website
           </button>
@@ -63,14 +86,14 @@ export default function Tabs() {
           <button
             ref={tabRefs.contact}
             onClick={() => setActiveTab("contact")}
-            className={`inline-block p-4 border-b-2 bg-transparent transition${activeTab === "contact" ? " active" : ""}`}
+            className={`tab-btn${activeTab === "contact" ? " active" : ""}`}
           >
           Contact
           </button>
         </li>
         {/* Animowane podkreślenie */}
         <span
-          className={`absolute bottom-0 h-1 menu-bar transition-all duration-300  ${activeTab ? 'menu-bar--active' : ''}`}
+          className={`menu-bar${activeTab ? " menu-bar--active" : ""}`}
           style={{
             left: underlineStyle.left,
             width: underlineStyle.width,
@@ -91,10 +114,59 @@ export default function Tabs() {
             <p>Here will be your projects section.</p>
           </div>
         )}
+        {activeTab === "photos" && (
+          <div>
+            <h2 className="tab-title">My Photography</h2>
+            <div className="gallery-bio">
+              Hi! I’m Karol and this is my photography portfolio.
+              <div className="instagram">
+                Visit my <a href="https://www.instagram.com/kl.eszczyk/" target="_blank" rel="noopener noreferrer">instagram</a> for contact and more.
+              </div>
+            </div>
+            <div className="masonry">
+              {images.map((src, idx) => (
+                <div key={idx} className="masonry-item">
+                  <img
+                    src={src}
+                    alt={`Photo ${idx + 1}`}
+                    onClick={() => setSelected(src)}
+                  />
+                </div>
+              ))}
+            </div>
+            {/* Lightbox */}
+            {selected && (
+              <div
+                className="lightbox"
+                onClick={() => setSelected(null)}
+              >
+                <img
+                  src={selected}
+                  alt="Large"
+                  className="lightbox-img"
+                  onClick={(e) => e.stopPropagation()}
+                />
+              </div>
+            )}
+          </div>
+        )}
         {activeTab === "about Website" && (
           <div>
             <h2 className="tab-title">About Website</h2>
-            <p>Here will be your website description, features, etc.</p>
+            <div className="gallery-bio">
+              <div className="text-block">
+                Ta strona powstała w całości w oparciu o podejście vibecoding - czyli styl tworzenia oprogramowania, w którym zamiast samodzielnie pisać kod, programista (a w tym przypadku raczej "pomysłodawca") formułuje instrukcje w języku naturalnym, a sztuczna inteligencja generuje na ich podstawie gotowe fragmenty aplikacji. Dzięki temu można skupić się bardziej na "co ma powstać" niż na "jak to zrobić".
+              </div>
+              <div className="text-block">
+                Ten projekt jest eksperymentem sprawdzającym, jak daleko można zajść, używając wyłącznie takiego podejścia. Warto zaznaczyć, że przed rozpoczęciem prac nie miałem żadnego doświadczenia w web developmencie – cała wiedza i kod powstały właśnie dzięki vibecodingowi.
+              </div>
+              <div className="text-block">
+                Mam świadomość, że taka metoda prowadzi do pewnej niechlujności w kodzie i strukturze projektu - i traktuję to jako naturalną konsekwencję eksperymentu. Dla mnie ważniejsze było przetestowanie granic i możliwości tego stylu pracy niż stworzenie perfekcyjnego rozwiązania.
+              </div>
+              <div className="text-block">
+                Jeśli chcesz zobaczyć, jak wygląda "od kuchni", zapraszam do przejrzenia kodu źródłowego na <a href="https://github.com/TMPkl/Portfolio-webside" target="_blank" rel="noopener noreferrer">GitHubie</a>.
+              </div>
+            </div>
           </div>
         )}
         {activeTab === "contact" && (

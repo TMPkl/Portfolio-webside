@@ -87,3 +87,9 @@
   color:  oklch(36.306% 0.02344 137.956);
   text-decoration: none;
 }
+
+.tab-bar {
+  font-size: 1.2em;      /* powiększa tekst o 20% */
+  padding-top: 1.2em;    /* większy odstęp u góry */
+  padding-bottom: 1.2em; /* większy odstęp na dole */
+}
