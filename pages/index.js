@@ -14,6 +14,7 @@ export async function getStaticProps() {
     .map((file) => `/gallery/${file}`);
   let commitSha = null;
   let commitDate = null;
+  let commitMessage = null;
   try {
     const res = await fetch(
       "https://api.github.com/repos/TMPkl/Portfolio-webside/commits/master"
@@ -21,13 +22,15 @@ export async function getStaticProps() {
     const data = await res.json();
     commitSha = data.sha ?? null;
     commitDate = data.commit?.committer?.date ?? null;
+    commitMessage = data.commit?.message ?? null;
   } catch (e) {
     // fallback jeśli API nie działa
     commitSha = null;
     commitDate = null;
+    commitMessage = null;
   }
 
-  return { props: { images, commitSha, commitDate } };
+  return { props: { images, commitSha, commitDate, commitMessage } };
 }
 
 

@@ -6,7 +6,7 @@ import ContactTab from '../components/Tabs/ContactTab';
 import { useState, useRef, useEffect } from "react"
 
 
-export default function Tabs({ images = [], commitSha = null, commitDate = null }) {
+export default function Tabs({ images = [], commitSha = null, commitDate = null, commitMessage = null }) {
   const [activeTab, setActiveTab] = useState("about");
   const [selected, setSelected] = useState(null);
 
@@ -100,7 +100,7 @@ export default function Tabs({ images = [], commitSha = null, commitDate = null 
         {activeTab === "photos" && (
           <PhotosTab images={images} selected={selected} setSelected={setSelected} />
         )}
-        {activeTab === "about Website" && <WebsiteTab commitSha={commitSha} commitDate={commitDate} />}
+        {activeTab === "about Website" && <WebsiteTab commitSha={commitSha} commitDate={commitDate} commitMessage={commitMessage}/>}
         {activeTab === "contact" && <ContactTab />}
       </div>
       

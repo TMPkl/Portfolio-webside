@@ -1,4 +1,4 @@
-export default function WebsiteTab({ commitSha, commitDate }) {
+export default function WebsiteTab({ commitSha, commitDate, commitMessage }) {
   return (
     <div>
       <h2 className="tab-title">About Website</h2>
@@ -35,9 +35,12 @@ export default function WebsiteTab({ commitSha, commitDate }) {
           .
         </div>
         <div className="text-block-alt">
-          Ostatni update:{" "}
-          <b>{commitDate ? new Date(commitDate).toLocaleDateString() : "unable to access API"}</b>{" "}
-          {commitSha ? commitSha.slice(0, 7) : ""}
+          Last update:{" "}
+          <b>{commitDate ? new Date(commitDate).toLocaleDateString() : "unable to access DATE"}</b>{" "}
+          {commitSha ? commitSha.slice(0, 7) : ""}{" "}
+          <br/>
+          {"Update note: "}
+          <b>{commitMessage ? `${commitMessage}` : "unable to access TITLE"}</b>{" "}
         </div>
       </div>
     </div>
