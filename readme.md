@@ -1,51 +1,51 @@
-# Portfolio Webside
+# Portfolio Website
 
-## O projekcie
+## About the project
 
-To jest eksperymentalna strona portfolio napisana w Next.js z użyciem Tailwind CSS.  
-Projekt powstał jako praktyczny test możliwości tworzenia aplikacji webowych przez osobę, która nigdy wcześniej nie miała styczności z web developmentem.  
-Całość powstała w duchu **"vibecodingu"** – czyli kodowania bez wcześniejszego planu, z dużym wykorzystaniem narzędzi AI do generowania kodu, rozwiązywania problemów i nauki na bieżąco.
+This is an experimental portfolio website built with Next.js and Tailwind CSS.  
+The project was created as a practical test of building web applications by someone with no prior experience in web development.  
+The entire site was made in the spirit of **"vibecoding"** – coding without a strict plan, relying heavily on AI tools for code generation, problem solving, and learning on the go.
 
-## Funkcje
+## Features
 
-- **Zakładki (tabs)**: Przełączanie się między sekcjami (About me, Projects, Website, Contact, Photos).
-- **Galeria zdjęć**: Osobna podstrona z responsywną galerią zdjęć w stylu masonry, z możliwością powiększania zdjęć (lightbox).
-- **Responsywny design**: Strona dostosowuje się do różnych rozdzielczości.
-- **Prosty, czytelny kod**: Większość stylów przeniesiona do plików CSS.
+- **Tabs:** Switch between sections (About me, Projects, Website, Contact, Photos).
+- **Photo gallery:** Responsive masonry-style gallery with lightbox, previously as a separate page.
+- **Responsive design:** The site adapts to different screen sizes.
+- **Clean, readable code:** Most styles are moved to CSS files.
 
-## Eksperyment "vibecoding"
+## The "vibecoding" experiment
 
-Ten projekt to **eksperyment** – testuję, jak daleko można zajść w webdevie, korzystając niemal wyłącznie z AI (np. GitHub Copilot, ChatGPT) i nie mając wcześniejszego doświadczenia w tej dziedzinie.  
-Celem jest sprawdzenie, czy można stworzyć funkcjonalną stronę "bezmyślnie", czyli polegając na podpowiedziach i automatyzacji, a nie na własnej wiedzy.
+This project is an **experiment** – I’m testing how far you can go in web development relying almost entirely on AI (e.g., GitHub Copilot, ChatGPT, Cloud and many more) without previous experience in this field.  
+The goal is to see if you can create a functional website "mindlessly", relying on suggestions and automation rather than your own knowledge.
 
-## Jak uruchomić projekt
+## How to run the project
 
-1. Sklonuj repozytorium:
+1. Clone the repository:
    ```
-   git clone https://github.com/TWOJ-USER/TWOJE-REPO.git
+   git clone https://github.com/TMPkl/Portfolio-webside.git
    ```
-2. Zainstaluj zależności:
+2. Install dependencies:
    ```
    npm install
    ```
-3. Uruchom projekt:
+3. Run the project:
    ```
    npm run dev
    ```
-4. Otwórz w przeglądarce: [http://localhost:3000](http://localhost:3000)
+4. Open in your browser: [http://localhost:3000](http://localhost:3000)
 
-## Struktura projektu
+## Project structure
 
-- `pages/` – pliki stron Next.js (`index.js`, `photos.js`, `_app.js`)
-- `styles/` – pliki CSS globalne i dedykowane dla podstron
-- `public/gallery/` – zdjęcia do galerii
+- `pages/` – Next.js page files (`index.js`, `_app.js`)
+- `styles/` – global and page-specific CSS files
+- `public/gallery/` – images for the gallery
 
-## Uwaga
+## Note
 
-Projekt jest **eksperymentalny** i powstał głównie w celach edukacyjnych oraz testowych.  
-Kod może zawierać nietypowe rozwiązania, a całość powstała w duchu "learning by doing" z AI.
+This project is **experimental** and was created mainly for educational and testing purposes.  
+The code may contain unusual solutions, and the whole thing was made in the spirit of "learning by doing" with AI.
 
 ---
 
-**Autor:** Karol  
-**Rok:**
+**Author:** TMPkl 
+**Year:** 2025
