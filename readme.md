@@ -12,6 +12,7 @@ The entire site was made in the spirit of **"vibecoding"** – coding without a 
 - **Photo gallery:** Responsive masonry-style gallery with lightbox, previously as a separate page.
 - **Responsive design:** The site adapts to different screen sizes.
 - **Clean, readable code:** Most styles are moved to CSS files.
+- **GitHub API integration:** The website fetches and displays the latest commit SHA and date from the GitHub repository using the GitHub API.
 
 ## The "vibecoding" experiment
 
@@ -39,13 +40,24 @@ The goal is to see if you can create a functional website "mindlessly", relying 
 - `pages/` – Next.js page files (`index.js`, `_app.js`)
 - `styles/` – global and page-specific CSS files
 - `public/gallery/` – images for the gallery
+- `components/` – React components used throughout the project:
+  - `Footer.js`
+  - `Tabs.js`
+  - `Tabs/`
+    - `AboutTab.js`
+    - `ContactTab.js`
+    - `PhotoTab.js`
+    - `ProjectsTab.js`
+    - `WebsiteTab.js`
 
 ## Note
 
 This project is **experimental** and was created mainly for educational and testing purposes.  
 The code may contain unusual solutions, and the whole thing was made in the spirit of "learning by doing" with AI.
 
+**GitHub API:**  
+The website uses the GitHub API to automatically display the latest commit information (SHA and date) from the repository. If the API is unavailable, fallback information is shown.
+
 ---
 
-**Author:** TMPkl 
-**Year:** 2025
+**Author:** TMPkl
