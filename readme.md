@@ -9,7 +9,7 @@ The entire site was made in the spirit of **"vibecoding"** – coding without a 
 ## Features
 
 - **Tabs:** Switch between sections (About me, Projects, Website, Contact, Photos).
-- **Photo gallery:** Responsive masonry-style gallery with lightbox, previously as a separate page.
+- **Photo gallery:** Responsive masonry-style gallery with lightbox.
 - **Responsive design:** The site adapts to different screen sizes.
 - **Clean, readable code:** Most styles are moved to CSS files.
 - **GitHub API integration:** The website fetches and displays the latest commit SHA and date from the GitHub repository using the GitHub API.
