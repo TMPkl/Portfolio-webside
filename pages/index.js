@@ -12,7 +12,7 @@ export async function getStaticProps() {
   return { props: { images } };
 }
 
-export default function Tabs({ images = [] }) {
+function Tabs({ images = [] }) {
   // Domyślnie zawsze "about" (SSR)
   const [activeTab, setActiveTab] = useState("about");
   const [selected, setSelected] = useState(null);
@@ -44,7 +44,7 @@ export default function Tabs({ images = [] }) {
   }, [activeTab]);
 
   return (
-    <div className="bg-all min-h-screen text-main relative text-sm font-medium text-center border-b border-gray-200 dark:text-gray-400 dark:border-gray-700">
+    <div className="bg-all text-main ">
       <ul className="tab-bar">
         <li className="me-2">
           <button
@@ -101,7 +101,7 @@ export default function Tabs({ images = [] }) {
           }}
         />
       </ul>
-      <div>
+      <div className="tab-content">
         {activeTab === "about" && (
           <div>
             <h2 className="tab-title">About me</h2>
@@ -176,6 +176,58 @@ export default function Tabs({ images = [] }) {
           </div>
         )}
       </div>
+      
     </div>
   )
+}
+
+// Dodaj komponent Footer na dole pliku
+function Footer() {
+  return (
+    <footer className="footer">
+      <div className="footer-content">
+        <div>
+          © {new Date().getFullYear()} Karol Leszyński. All rights reserved.
+        </div>
+        <div className="footer-links">
+          <a
+            href="https://www.instagram.com/kl.eszczyk/"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Instagram"
+          >
+            <img src="/icons/INS.svg" alt="Instagram" style={{ width: 28, height: 28 }} />
+          </a>
+          <span className="footer-sep">|</span>
+          <a
+            href="https://www.linkedin.com/in/karol-leszy%C5%84ski-1310582a9/"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="LinkedIn"
+          >
+            <img src="/icons/LIN.svg" alt="LinkedIn" style={{ width: 28, height: 28 }} />
+          </a>
+          <span className="footer-sep">|</span>
+          <a
+            href="https://github.com/TMPkl"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="GitHub"
+          >
+            <img src="/icons/GH.svg" alt="GitHub" style={{ width: 28, height: 28 }} />
+          </a>
+        </div>
+      </div>
+    </footer>
+  );
+}
+
+// Owiń Tabs i Footer w domyślnym eksporcie
+export default function Page(props) {
+  return (
+    <>
+      <Tabs {...props} />
+      <Footer />
+    </>
+  );
 }
