@@ -243,3 +243,12 @@ a{
 .footer-links a:hover img {
   filter: brightness(2.5);
 }
+
+.text-block-alt {
+  color: #92998e;
+  text-align: left;
+  font-size: 1rem;
+  font-weight: 400;
+
+
+}
