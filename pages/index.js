@@ -1,9 +1,9 @@
 import fs from "fs";
 import path from "path";
 import Footer from '../components/Footer';
-// TABS
-
-//
+import getTitle from '../components/Title';
+import { useState } from 'react';
+import Head from 'next/head';
 import Tabs from '../components/Tabs';
 
 export async function getStaticProps() {
@@ -35,9 +35,17 @@ export async function getStaticProps() {
 
 
 export default function Page(props) {
+  const [activeTab, setActiveTab] = useState('about');
   return (
     <>
-      <Tabs {...props} />
+      <Head>
+        <title>{getTitle(activeTab)}</title>
+      </Head>
+      <Tabs
+        {...props}
+        activeTab={activeTab}
+        setActiveTab={setActiveTab}
+      />
       <Footer />
     </>
   );

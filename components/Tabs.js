@@ -3,11 +3,17 @@ import ProjectsTab from '../components/Tabs/ProjectsTab';
 import PhotosTab from '../components/Tabs/PhotoTab';
 import WebsiteTab from '../components/Tabs/WebsiteTab';
 import ContactTab from '../components/Tabs/ContactTab';
-import { useState, useRef, useEffect } from "react"
+import { useRef, useEffect, useState } from "react";
 
 
-export default function Tabs({ images = [], commitSha = null, commitDate = null, commitMessage = null }) {
-  const [activeTab, setActiveTab] = useState("about");
+export default function Tabs({
+  images = [],
+  commitSha = null,
+  commitDate = null,
+  commitMessage = null,
+  activeTab,
+  setActiveTab
+}) {
   const [selected, setSelected] = useState(null);
 
   const tabRefs = {
@@ -24,6 +30,7 @@ export default function Tabs({ images = [], commitSha = null, commitDate = null,
     const params = new URLSearchParams(window.location.search);
     const tab = params.get("tab") || "about";
     setActiveTab(tab);
+    // eslint-disable-next-line
   }, []);
 
   useEffect(() => {
