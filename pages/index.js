@@ -2,9 +2,10 @@ import fs from "fs";
 import path from "path";
 import Footer from '../components/Footer';
 import getTitle from '../components/Title';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Head from 'next/head';
 import Tabs from '../components/Tabs';
+import { useRouter } from 'next/router'; // dodaj ten import
 
 export async function getStaticProps() {
   const galleryDir = path.join(process.cwd(), "public/gallery");
@@ -36,23 +37,79 @@ export async function getStaticProps() {
 
 export default function Page(props) {
   const [activeTab, setActiveTab] = useState('about');
+  const [language, setLanguage] = useState('pl');
+  const router = useRouter();
+
+  // Ustaw język i zakładkę na podstawie query stringa przy pierwszym renderze
+  useEffect(() => {
+    if (router.isReady) {
+      const { tab, lang } = router.query;
+      if (tab && typeof tab === "string") setActiveTab(tab);
+      if (lang && typeof lang === "string") setLanguage(lang);
+    }
+  }, [router.isReady, router.query]);
+
+  // Funkcja do zmiany języka i aktualizacji URL
+  const handleLanguageChange = (lang) => {
+    setLanguage(lang);
+    router.replace(
+      {
+        pathname: router.pathname,
+        query: { ...router.query, lang, tab: activeTab },
+      },
+      undefined,
+      { shallow: true }
+    );
+  };
+
+  // Funkcja do zmiany zakładki i aktualizacji URL (przekaż ją do Tabs)
+  const handleTabChange = (tab) => {
+    setActiveTab(tab);
+    router.replace(
+      {
+        pathname: router.pathname,
+        query: { ...router.query, tab, lang: language },
+      },
+      undefined,
+      { shallow: true }
+    );
+  };
+
   return (
     <>
       <Head>
         <title>{getTitle(activeTab)}</title>
-        
         <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
         <link rel="shortcut icon" href="/favicon.ico" />
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
         <link rel="manifest" href="/site.webmanifest" />
-
         <meta name="description" content="Karol Leszyński photography portfolio and IT projects. Explore creative photos and innovative tech solutions in one place." />
       </Head>
+
+      <div className="language-button-container">
+        <button
+          className={`language-switch-btn${language === 'pl' ? ' active' : ''}`}
+          onClick={() => handleLanguageChange('pl')}
+          type="button"
+        >
+          PL
+        </button>
+        
+        <button
+          className={`language-switch-btn${language === 'en' ? ' active' : ''}`}
+          onClick={() => handleLanguageChange('en')}
+          type="button"
+        >
+          EN
+        </button>
+      </div>
+
       <Tabs
         {...props}
         activeTab={activeTab}
-        setActiveTab={setActiveTab}
+        setActiveTab={handleTabChange}
+        language={language}
       />
       <Footer />
     </>

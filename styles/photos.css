@@ -1,17 +1,12 @@
-.gallery-title {
-  font-size: 2rem;         /* odpowiada text-2xl */
-  font-weight: bold;       /* odpowiada font-bold */
-  margin-bottom: 1rem;     /* odpowiada mb-4 */
-  text-align: center;      /* odpowiada text-center */
-  margin-top: 2rem;        /* możesz dodać odstęp od góry */
-}
-
 .gallery-bio {
-  max-width: 1100px;
+  max-width: 1000px;
   margin: 0 auto 2rem auto;
   text-align: center;
-  font-size: 1.2rem;
+  font-size: 1.5rem;
   color: rgb(60, 60, 63);
+  padding-left: 3%;
+  padding-right: 3%;
+  padding-bottom: 2rem;
 }
 
 .masonry {
@@ -39,6 +34,12 @@
   cursor: pointer;
 }
 
+.masonry-item img:hover {
+  transform: scale(1.08);
+  z-index: 2;
+}
+
+
 .masonry-item img {
   width: 100%;
   display: block;
@@ -46,26 +47,21 @@
   z-index: 1;
 }
 
-.masonry-item img:hover {
-  transform: scale(1.08);
-  z-index: 2;
-}
-
+/* Lightbox */
 .lightbox {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.8);
+  background: rgba(0,0,0,0.8);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 50;
   cursor: zoom-out;
 }
-
 .lightbox-img {
   max-height: 90vh;
   max-width: 90vw;
-  box-shadow: 0 0 40px #000;
+  box-shadow: 0 0 32px #000;
   background: #fff;
 }
 

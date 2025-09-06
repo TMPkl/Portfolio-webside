@@ -4,6 +4,7 @@ import PhotosTab from '../components/Tabs/PhotoTab';
 import WebsiteTab from '../components/Tabs/WebsiteTab';
 import ContactTab from '../components/Tabs/ContactTab';
 import { useRef, useEffect, useState } from "react";
+import { useRouter } from 'next/router'; // dodaj ten import
 
 
 export default function Tabs({
@@ -12,8 +13,10 @@ export default function Tabs({
   commitDate = null,
   commitMessage = null,
   activeTab,
-  setActiveTab
+  setActiveTab,
+  language,
 }) {
+  const router = useRouter(); // dodaj to
   const [selected, setSelected] = useState(null);
 
   const tabRefs = {
@@ -41,7 +44,20 @@ export default function Tabs({
         width: ref.current.offsetWidth,
       });
     }
-  }, [activeTab]);
+  }, [activeTab, language]);
+
+  // Funkcja pomocnicza do zmiany zakładki i URL
+  const handleTabChange = (tab) => {
+    setActiveTab(tab);
+    router.replace(
+      {
+        pathname: router.pathname,
+        query: { ...router.query, tab },
+      },
+      undefined,
+      { shallow: true }
+    );
+  };
 
   return (
     <div className="bg-all text-main ">
@@ -49,7 +65,7 @@ export default function Tabs({
         <li className="me-2">
           <button
             ref={tabRefs.about}
-            onClick={() => setActiveTab("about")}
+            onClick={() => handleTabChange("about")}
             className={`tab-btn${activeTab === "about" ? " active" : ""}`}
           >
             About me
@@ -58,7 +74,7 @@ export default function Tabs({
         <li className="me-2">
           <button
             ref={tabRefs.projects}
-            onClick={() => setActiveTab("projects")}
+            onClick={() => handleTabChange("projects")}
             className={`tab-btn${activeTab === "projects" ? " active" : ""}`}
           >
             Projects
@@ -67,7 +83,7 @@ export default function Tabs({
         <li className="me-2">
           <button
             ref={tabRefs.photos}
-            onClick={() => setActiveTab("photos")}
+            onClick={() => handleTabChange("photos")}
             className={`tab-btn${activeTab === "photos" ? " active" : ""}`}
           >
             Photos
@@ -76,7 +92,7 @@ export default function Tabs({
         <li className="me-2">
           <button
             ref={tabRefs["about Website"]}
-            onClick={() => setActiveTab("about Website")}
+            onClick={() => handleTabChange("about Website")}
             className={`tab-btn${activeTab === "about Website" ? " active" : ""}`}
           >
             Website
@@ -85,10 +101,10 @@ export default function Tabs({
         <li className="me-2">
           <button
             ref={tabRefs.contact}
-            onClick={() => setActiveTab("contact")}
+            onClick={() => handleTabChange("contact")}
             className={`tab-btn${activeTab === "contact" ? " active" : ""}`}
           >
-          Contact
+            Contact 
           </button>
         </li>
         {/* Animowane podkreślenie */}
@@ -107,7 +123,11 @@ export default function Tabs({
         {activeTab === "photos" && (
           <PhotosTab images={images} selected={selected} setSelected={setSelected} />
         )}
-        {activeTab === "about Website" && <WebsiteTab commitSha={commitSha} commitDate={commitDate} commitMessage={commitMessage}/>}
+        {activeTab === "about Website" && <WebsiteTab 
+                                              commitSha={commitSha}
+                                              commitDate={commitDate}
+                                              commitMessage={commitMessage}
+                                              language={language}/>}
         {activeTab === "contact" && <ContactTab />}
       </div>
       
