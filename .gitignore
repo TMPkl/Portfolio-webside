@@ -31,6 +31,8 @@ pnpm-debug.log*
 *.swp
 *.swo
 
+*.bat
+
 # Optional: jest coverage
 coverage/
 
