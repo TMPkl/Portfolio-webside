@@ -1,7 +1,7 @@
 export default  function getTitle(tab) {
   const base = "Karol Leszyński";
   const map = {
-    'about': 'About me',
+    'about': 'Developer & Photographer',
     'projects': 'My projects',
     'photos': 'My photos',
     'about Website': 'About this website',

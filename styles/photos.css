@@ -36,14 +36,12 @@
   break-inside: avoid;
   margin-bottom: 1.5rem;
   overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
   cursor: pointer;
 }
 
 .masonry-item img {
   width: 100%;
   display: block;
-  transition: transform 0.3s, box-shadow 0.3s;
   position: relative;
   z-index: 1;
 }
@@ -51,13 +49,12 @@
 .masonry-item img:hover {
   transform: scale(1.08);
   z-index: 2;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.18);
 }
 
 .lightbox {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.8);
+  background: rgba(0, 0, 0, 0.8);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -68,7 +65,7 @@
 .lightbox-img {
   max-height: 90vh;
   max-width: 90vw;
-  box-shadow: 0 0 32px #000;
+  box-shadow: 0 0 40px #000;
   background: #fff;
 }
 

@@ -40,6 +40,14 @@ export default function Page(props) {
     <>
       <Head>
         <title>{getTitle(activeTab)}</title>
+        
+        <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <link rel="shortcut icon" href="/favicon.ico" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+        <link rel="manifest" href="/site.webmanifest" />
+
+        <meta name="description" content="Karol Leszyński photography portfolio and IT projects. Explore creative photos and innovative tech solutions in one place." />
       </Head>
       <Tabs
         {...props}
