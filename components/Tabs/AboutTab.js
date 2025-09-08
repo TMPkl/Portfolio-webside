@@ -1,8 +1,11 @@
-export default function AboutTab() {
+import translations from "../translations";
+export default function AboutTab({ language }) {
   return (
     <div>
-      <h2 className="tab-title">About me</h2>
-      <p>Here SOON will be my about me section – description, skills, etc.</p>
+      <h2 className="tab-title" dangerouslySetInnerHTML={{ __html: translations[language].aboutTab.title }} />
+      <div className="main-content">
+      <div className="short-text-block" dangerouslySetInnerHTML={{ __html: translations[language].aboutTab.content }} />
+    </div>
     </div>
   );
 }

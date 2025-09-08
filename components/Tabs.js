@@ -118,17 +118,17 @@ export default function Tabs({
         />
       </ul>
       <div className="tab-content">
-        {activeTab === "about" && <AboutTab />}
-        {activeTab === "projects" && <ProjectsTab />}
+        {activeTab === "about" && <AboutTab language={language}/>}
+        {activeTab === "projects" && <ProjectsTab language={language}/>}
         {activeTab === "photos" && (
-          <PhotosTab images={images} selected={selected} setSelected={setSelected} />
+          <PhotosTab images={images} selected={selected} setSelected={setSelected} language={language} />
         )}
         {activeTab === "about Website" && <WebsiteTab 
                                               commitSha={commitSha}
                                               commitDate={commitDate}
                                               commitMessage={commitMessage}
                                               language={language}/>}
-        {activeTab === "contact" && <ContactTab />}
+        {activeTab === "contact" && <ContactTab  language={language}/>}
       </div>
       
     </div>

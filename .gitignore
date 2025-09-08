@@ -39,3 +39,5 @@ coverage/
 # Optional: local images/uploads
 /public/gallery/*
 !.gitkeep
+
+*.tar.gz

@@ -1,12 +1,11 @@
-export default function PhotosTab({ images, selected, setSelected }) {
+import translations from "../translations";
+export default function PhotosTab({ images, selected, setSelected, language }) {
   return (
     <div>
-      <h2 className="tab-title">My Photography</h2>
-      <div className="gallery-bio">
-        Hi! I’m Karol and this is my photography portfolio.
-        <div className="instagram">
-          Visit my <a href="https://www.instagram.com/kl.eszczyk/" target="_blank" rel="noopener noreferrer">instagram</a> for contact and more.
-        </div>
+      <h2 className="tab-title" dangerouslySetInnerHTML={{ __html: translations[language].PhotosTab.title }} />
+      <div className="main-content">
+        <div className="short-text-block" dangerouslySetInnerHTML={{ __html: translations[language].PhotosTab.bio.p1 }} />
+        <div className="instagram" dangerouslySetInnerHTML={{ __html: translations[language].PhotosTab.bio.p2 }} />
       </div>
       <div className="masonry">
         {images.map((src, idx) => (

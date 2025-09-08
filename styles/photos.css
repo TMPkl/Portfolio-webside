@@ -1,13 +1,4 @@
-.gallery-bio {
-  max-width: 1000px;
-  margin: 0 auto 2rem auto;
-  text-align: center;
-  font-size: 1.5rem;
-  color: rgb(60, 60, 63);
-  padding-left: 3%;
-  padding-right: 3%;
-  padding-bottom: 2rem;
-}
+
 
 .masonry {
   column-count: 3;
