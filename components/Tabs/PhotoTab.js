@@ -5,7 +5,7 @@ export default function PhotosTab({ images, selected, setSelected, language }) {
       <h2 className="tab-title" dangerouslySetInnerHTML={{ __html: translations[language].PhotosTab.title }} />
       <div className="main-content">
         <div className="short-text-block" dangerouslySetInnerHTML={{ __html: translations[language].PhotosTab.bio.p1 }} />
-        <div className="instagram" dangerouslySetInnerHTML={{ __html: translations[language].PhotosTab.bio.p2 }} />
+        <div className="short-text-block instagram" dangerouslySetInnerHTML={{ __html: translations[language].PhotosTab.bio.p2 }} />
       </div>
       <div className="masonry">
         {images.map((src, idx) => (

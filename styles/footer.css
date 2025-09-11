@@ -1,10 +1,10 @@
 .footer {
-  background: #e6e8e8;
-  color: #28282b;
+  background: #3f4949;
+  color: #7a9899;
   font-size: 1rem;
   padding: 2rem 0 1.2rem 0;
   text-align: center;
-  border-top: 1px solid #435c4b;
+  border-top: 1px solid #37797e;
 }
 .footer-content {
   max-width: 900px;
@@ -29,10 +29,10 @@
 }
 
 .footer-links img {
-  color: #2563eb; /* niebieski */
+  color: #ff4800; /* niebieski */
   background-color: inherit;
   transition: filter 0.2s, color 0.3s;
 }
 .footer-links a:hover img {
-  filter: brightness(2.5);
+  filter: brightness(0.25);
 }

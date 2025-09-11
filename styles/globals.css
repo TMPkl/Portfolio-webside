@@ -3,29 +3,26 @@
 @tailwind utilities;
 
 /* Tło i tekst */
-.bg-all { 
-  background-color: #D3DAD9;
+.background{
+  background-image: linear-gradient(to left top, rgb(105, 113, 114), #5b6264, #4d5456, #3f4648, #32383b, #2b3134, #252a2e, #1f2327, #1c2125, #1a1f23, #171d21, #151b1f);
+  min-height: 100vh; /* Dodaj to */
+  width: 100%;       /* Dodaj to */
 }
 .text-main {
   min-height: 100vh;                /* min-h-screen */
   position: relative;                /* relative */
   font-size: 0.9rem;               /* text-sm */
   font-weight: 500;                  /* font-medium */
-  text-align: center;                /* text-center */
-  color: #212024;                    /* domyślny kolor tekstu */
+  text-align: center;                /* text-center */                    /* domyślny kolor tekstu */
+  color: #57918e;                    /* text-gray-200 */
 }
 
 .tab-content {
   padding-bottom: 6rem;          /* padding-bottom: 24 */
 }
 
-a{
-  color: #2a3b26;
-}
 
-.text-header {
-  color: #28282b;
-}
+
 
 /* Tab bar (menu) */
 .tab-bar {
@@ -50,17 +47,16 @@ a{
   font-family: inherit;
   cursor: pointer;
   border-radius: 0;
-  color: #302727;
 }
 
 .tab-btn.active,
 .tab-btn:focus {
-  background: #a9acac;
+  background: #282d30;
   outline: none;
 }
 
 .tab-btn:hover {
-  background: rgb(146, 150, 150);
+  background: rgb(83, 87, 83);
 }
 
 /* Podkreślenie aktywnej zakładki */
@@ -73,16 +69,17 @@ a{
   z-index: 2;
 }
 .menu-bar--active {
-  background:  #566652;
+  background:  #2b3a3b;
+  
 }
 
-/* Tytuły sekcji pod tabami */
+/* Tytuły sekcji */
 .tab-title {
   font-size: 3rem;
   font-weight: bold;
   margin-bottom: 1rem;
   text-align: center;
-  color: #28282b;
+  color: #295c63;
   margin-top: 2rem;
   margin-bottom: 3rem;
 }
@@ -93,12 +90,13 @@ a{
   margin: 0 auto 2rem auto;
   text-align: center;
   font-size: 1.5rem;
-  color: rgb(60, 60, 63);
+  color: rgb(248, 39, 2);
   padding-bottom: 2rem;
 }
 
 @media (max-width: 900px) {
   .main-content {
+    margin: 0 auto 2rem auto;
     margin-left: 5%;
     margin-right: 5%;
   }
@@ -107,7 +105,7 @@ a{
 .short-text-block {
   text-align: middle;
   margin-bottom: 1.8rem;
-  color: rgb(60, 60, 63);
+  color: #6e8285;
 }
 
 
@@ -115,23 +113,24 @@ a{
   text-indent: 2em;
   text-align: left;
   margin-bottom: 1.8rem;
-  color: rgb(60, 60, 63);
+  color: #6e8285;
 }
 .text-block a, .short-text-block a {
+  color: #83896e;
   text-decoration: underline;
   font-weight: bold;
   transition: color 0.5s;
 }
 .text-block a:hover, .short-text-block a:hover {
   text-decoration: none;
-  color: #28282b;
+  color: #3a3d2f;
 }
 
 /* Stopka */
 
 
 .text-block-alt {
-  color: #546344;
+  color: #3e4849;
   text-align: left;
   font-size: 1rem;
   font-weight: 400;
@@ -142,7 +141,7 @@ a{
   position: absolute;
   top: 2rem;
   right: 5.5%;
-  background-color: #32362d;
+  background-color: #83b5a6;
   display: flex;
   align-items: center;
   z-index: 1000;
@@ -152,21 +151,20 @@ a{
 .language-switch-btn {
   width: 50px;
   border: none;
-  color: #D3DAD9;
-  background-color: #32362d;
+  color: #2f5856;
+  background-color: #83b5b1;
   font-size: 1rem;
   font-weight: bold;
   cursor: pointer;
   padding: 0.3em 0.1em;
   transition: background-color 0.3s, color 0.3s;
-  border-radius: 10px;
+  border-radius: 9px;
 }
 
 .language-switch-btn.active{
-  background-color: #566652;
-  color: #D3DAD9;
+  background-color: #2a4d43;
+  color: #67968e;
 }
 .language-switch-btn:hover {
-  background-color: #434b3f;
-  color: #D3DAD9;
+  background-color: #41635c;
 }

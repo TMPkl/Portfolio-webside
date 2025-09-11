@@ -60,7 +60,7 @@ export default function Tabs({
   };
 
   return (
-    <div className="bg-all text-main ">
+    <div className="background text-main ">
       <ul className="tab-bar">
         <li className="me-2">
           <button
