@@ -17,7 +17,8 @@ export default function Tabs({
   language,
 }) {
   const router = useRouter(); // dodaj to
-  const [selected, setSelected] = useState(null);
+  const [selected, setSelected] = useState(null); 
+  const [scrolled, setScrolled] = useState(false);
 
   const tabRefs = {
     about: useRef(null),
@@ -30,6 +31,15 @@ export default function Tabs({
 
   // Po zamontowaniu komponentu ustaw tab z query stringa (tylko na kliencie)
   useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 150) { // Próg przewinięcia
+        setScrolled(true);
+      } else {
+        setScrolled(false);
+      }
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
     const params = new URLSearchParams(window.location.search);
     const tab = params.get("tab") || "about";
     setActiveTab(tab);
@@ -57,11 +67,12 @@ export default function Tabs({
       undefined,
       { shallow: true }
     );
+    window.scrollTo({ top: 0, behavior: "smooth" }); // <-- dodaj to
   };
 
   return (
     <div className="background text-main ">
-      <ul className="tab-bar">
+      <ul className={`tab-bar${scrolled ? " tab-bar--scrolled" : ""}`}>
         <li className="me-2">
           <button
             ref={tabRefs.about}
@@ -109,7 +120,7 @@ export default function Tabs({
         </li>
         {/* Animowane podkreślenie */}
         <span
-          className={`menu-bar${activeTab ? " menu-bar--active" : ""}`}
+          className={`menu-bar${activeTab ? " menu-bar--active" : ""}${scrolled ? " menu-bar--scrolled" : ""}` }
           style={{
             left: underlineStyle.left,
             width: underlineStyle.width,

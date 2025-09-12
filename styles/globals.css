@@ -21,9 +21,6 @@
   padding-bottom: 6rem;          /* padding-bottom: 24 */
 }
 
-
-
-
 /* Tab bar (menu) */
 .tab-bar {
   font-size: 1.2em;
@@ -34,6 +31,14 @@
   justify-content: center;
   position: relative;
   margin-bottom: -1px;
+}
+
+.tab-bar--scrolled {
+  background: #121518d3; /* lub dowolny inny kolor/tło */
+  position: sticky; /* <-- dodaj to! */
+  transition: background 0.3s;
+  top: 0; /* <-- dodaj to! */
+  z-index: 100; /* <-- dodaj to! */
 }
 
 /* Pojedynczy przycisk tab */
@@ -51,12 +56,13 @@
 
 .tab-btn.active,
 .tab-btn:focus {
-  background: #282d30;
+  background: rgba(59, 64, 68, 0.39);
   outline: none;
 }
 
 .tab-btn:hover {
-  background: rgb(83, 87, 83);
+  background: #a2c0d173;
+  color: #8ee4df
 }
 
 /* Podkreślenie aktywnej zakładki */
@@ -69,8 +75,11 @@
   z-index: 2;
 }
 .menu-bar--active {
-  background:  #2b3a3b;
+  background:  #183d42;
   
+}
+.menu-bar--scrolled.menu-bar--active {
+  background: #285d649f;
 }
 
 /* Tytuły sekcji */
