@@ -150,7 +150,7 @@
   position: absolute;
   top: 2rem;
   right: 5.5%;
-  background-color: #83b5a6;
+  background-color: #56a8a1;
   display: flex;
   align-items: center;
   z-index: 1000;
@@ -160,8 +160,8 @@
 .language-switch-btn {
   width: 50px;
   border: none;
-  color: #2f5856;
-  background-color: #83b5b1;
+  color: #495057;
+  background-color: inherit;
   font-size: 1rem;
   font-weight: bold;
   cursor: pointer;
@@ -171,9 +171,9 @@
 }
 
 .language-switch-btn.active{
-  background-color: #2a4d43;
-  color: #67968e;
+  background-color: #024e53;
+  color: #86b3b3;
 }
 .language-switch-btn:hover {
-  background-color: #41635c;
+  background-color: #03292b;
 }
