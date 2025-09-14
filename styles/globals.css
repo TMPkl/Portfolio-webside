@@ -4,7 +4,7 @@
 
 /* Tło i tekst */
 .background {
-  background-image: linear-gradient(to margin-left , var(--gradient-color1, #697172), var(--gradient-color2, #151b1f));
+  background-image: linear-gradient(to right, var(--gradient-color1, #697172), var(--gradient-color2, #151b1f));
   min-height: 100vh;
   width: 100%;
 }

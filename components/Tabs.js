@@ -5,6 +5,7 @@ import WebsiteTab from '../components/Tabs/WebsiteTab';
 import ContactTab from '../components/Tabs/ContactTab';
 import { useRef, useEffect, useState } from "react";
 import { useRouter } from 'next/router'; // dodaj ten import
+import useDynamicBackground from '../hooks/useDynamicBackground';
 
 
 export default function Tabs({
@@ -29,6 +30,8 @@ export default function Tabs({
   };
   const [underlineStyle, setUnderlineStyle] = useState({ left: 0, width: 0 });
   const backgroundRef = useRef(null);
+
+  useDynamicBackground(backgroundRef);
 
   // Po zamontowaniu komponentu ustaw tab z query stringa (tylko na kliencie)
   useEffect(() => {
@@ -83,36 +86,6 @@ export default function Tabs({
     );
     slowScrollToTop(200); // <-- dodaj to
   };
-
-  // Dynamiczny gradient tła zależny od scrolla
-  useEffect(() => {
-    function onScroll() {
-      const maxScroll =
-        Math.max(
-          document.body.scrollHeight,
-          document.documentElement.scrollHeight
-        ) - window.innerHeight;
-      const y = Math.min(window.scrollY, maxScroll);
-
-      // Przykład: od niebieskiego do fioletowego
-      const r = Math.round(44 + (69 - 44) * (y / maxScroll));
-      const g = Math.round(44 + (87 - 44) * (y / maxScroll));
-      const b = 107;
- // 69, 44, 107 
- // 44, 87, 107
-      if (backgroundRef.current) {
-        backgroundRef.current.style.backgroundImage =
-          `linear-gradient(to left top, rgb(${r},${g},${b}), #2c2c2cff)`;
-      }
-    }
-    window.addEventListener("scroll", onScroll);
-    window.addEventListener("resize", onScroll); // aktualizuj przy zmianie rozmiaru
-    onScroll(); // ustaw od razu po załadowaniu
-    return () => {
-      window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", onScroll);
-    };
-  }, []);
 
   return (
     <div ref={backgroundRef} className="background text-main">
