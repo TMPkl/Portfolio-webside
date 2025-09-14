@@ -28,6 +28,7 @@ export default function Tabs({
     contact: useRef(null),
   };
   const [underlineStyle, setUnderlineStyle] = useState({ left: 0, width: 0 });
+  const backgroundRef = useRef(null);
 
   // Po zamontowaniu komponentu ustaw tab z query stringa (tylko na kliencie)
   useEffect(() => {
@@ -56,6 +57,19 @@ export default function Tabs({
     }
   }, [activeTab, language]);
 
+  function slowScrollToTop(duration = 2000) {
+  const start = window.scrollY;
+  const startTime = performance.now();
+
+  function scrollStep(now) {
+    const elapsed = now - startTime;
+    const progress = Math.min(elapsed / duration, 1);
+    window.scrollTo(0, start * (1 - progress));
+    if (progress < 1) requestAnimationFrame(scrollStep);
+  }
+  requestAnimationFrame(scrollStep);
+}
+
   // Funkcja pomocnicza do zmiany zakładki i URL
   const handleTabChange = (tab) => {
     setActiveTab(tab);
@@ -67,11 +81,41 @@ export default function Tabs({
       undefined,
       { shallow: true }
     );
-    window.scrollTo({ top: 0, behavior: "smooth" }); // <-- dodaj to
+    slowScrollToTop(200); // <-- dodaj to
   };
 
+  // Dynamiczny gradient tła zależny od scrolla
+  useEffect(() => {
+    function onScroll() {
+      const maxScroll =
+        Math.max(
+          document.body.scrollHeight,
+          document.documentElement.scrollHeight
+        ) - window.innerHeight;
+      const y = Math.min(window.scrollY, maxScroll);
+
+      // Przykład: od niebieskiego do fioletowego
+      const r = Math.round(44 + (69 - 44) * (y / maxScroll));
+      const g = Math.round(44 + (87 - 44) * (y / maxScroll));
+      const b = 107;
+ // 69, 44, 107 
+ // 44, 87, 107
+      if (backgroundRef.current) {
+        backgroundRef.current.style.backgroundImage =
+          `linear-gradient(to left top, rgb(${r},${g},${b}), #2c2c2cff)`;
+      }
+    }
+    window.addEventListener("scroll", onScroll);
+    window.addEventListener("resize", onScroll); // aktualizuj przy zmianie rozmiaru
+    onScroll(); // ustaw od razu po załadowaniu
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
+  }, []);
+
   return (
-    <div className="background text-main ">
+    <div ref={backgroundRef} className="background text-main">
       <ul className={`tab-bar${scrolled ? " tab-bar--scrolled" : ""}`}>
         <li className="me-2">
           <button

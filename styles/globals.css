@@ -3,10 +3,10 @@
 @tailwind utilities;
 
 /* Tło i tekst */
-.background{
-  background-image: linear-gradient(to left top, rgb(105, 113, 114), #5b6264, #4d5456, #3f4648, #32383b, #2b3134, #252a2e, #1f2327, #1c2125, #1a1f23, #171d21, #151b1f);
-  min-height: 100vh; /* Dodaj to */
-  width: 100%;       /* Dodaj to */
+.background {
+  background-image: linear-gradient(to margin-left , var(--gradient-color1, #697172), var(--gradient-color2, #151b1f));
+  min-height: 100vh;
+  width: 100%;
 }
 .text-main {
   min-height: 100vh;                /* min-h-screen */
@@ -139,7 +139,7 @@
 
 
 .text-block-alt {
-  color: #3e4849;
+  color: #142020;
   text-align: left;
   font-size: 1rem;
   font-weight: 400;
