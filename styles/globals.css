@@ -156,12 +156,22 @@
   z-index: 1000;
   border-radius: 10px;
 }
+@media (max-width: 900px)
+{.language-button-container {
+  position: fixed; /* Element przypięty do widocznego obszaru przeglądarki */
+  top: 90%;       /* Odległość od górnej krawędzi okna */
+  right: 20px;     /* Odległość od prawej krawędzi okna */
+  z-index: 1000;   /* Zapewnia, że element będzie nad innymi */
+  background-color: #5bb4ad77;
+  
+}
+}
+
 
 .language-switch-btn {
   width: 50px;
   border: none;
   color: #495057;
-  background-color: inherit;
   font-size: 1rem;
   font-weight: bold;
   cursor: pointer;
@@ -170,10 +180,19 @@
   border-radius: 9px;
 }
 
+
+
 .language-switch-btn.active{
   background-color: #024e53;
   color: #86b3b3;
 }
+
+@media (max-width: 900px)
+{.language-switch-btn.active {
+  background-color: #044246b8;
+}
+}
+
 .language-switch-btn:hover {
   background-color: #03292b;
 }

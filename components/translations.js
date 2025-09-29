@@ -30,7 +30,7 @@ const translations = {
         p1: "This website was created mostly using the vibecoding approach – a style of software development where, instead of writing code yourself, the programmer (or in this case, the \"idea person\") formulates instructions in natural language, and artificial intelligence generates ready-made application fragments based on them. This allows you to focus more on \"what should be created\" rather than \"how to do it\".",
         p2: "This project is an experiment to see how far you can go using only this approach. It's worth noting that before starting, I had no experience in web development – all knowledge and code were created thanks to vibecoding.",
         p3: "I am aware that this method leads to some messiness in the code and project structure – and I treat it as a natural consequence of the experiment. For me, it was more important to test the boundaries and possibilities of this style of work than to create a perfect solution.",
-        p4: "If you want to see \"behind the scenes\", feel free to browse the source code on <a href=\"https://github.com/TMPkl/Portfolio-webside\" target=\"_blank\" rel=\"noopener noreferrer\">GitHubie</a>.",
+        p4: "If you want to see \"behind the scenes\", feel free to browse the source code on <a href=\"https://github.com/TMPkl/Portfolio-webside\" target=\"_blank\" rel=\"noopener noreferrer\">GitHub</a>.",
       }
     },
     PhotosTab: {
@@ -46,7 +46,7 @@ const translations = {
         about: "O mnie",
         projects: "Projekty",
         photos: "Zdjęcia",
-        "about Website": "Strona",
+        "about Website": "O Strona",
         contact: "Kontakt",
     },
     projectsTab: {

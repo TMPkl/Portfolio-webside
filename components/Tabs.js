@@ -6,6 +6,7 @@ import ContactTab from '../components/Tabs/ContactTab';
 import { useRef, useEffect, useState } from "react";
 import { useRouter } from 'next/router'; // dodaj ten import
 import useDynamicBackground from '../hooks/useDynamicBackground';
+import translations from './translations';
 
 
 export default function Tabs({
@@ -60,6 +61,28 @@ export default function Tabs({
     }
   }, [activeTab, language]);
 
+  useEffect(() => {
+    const updateUnderlinePosition = () => {
+      const ref = tabRefs[activeTab];
+      if (ref && ref.current) {
+        setUnderlineStyle({
+          left: ref.current.offsetLeft,
+          width: ref.current.offsetWidth,
+        });
+      }
+    };
+
+    // Wywołaj funkcję na zmianę rozmiaru okna
+    window.addEventListener("resize", updateUnderlinePosition);
+
+    // Wywołaj funkcję na początkowe renderowanie
+    updateUnderlinePosition();
+
+    return () => {
+      window.removeEventListener("resize", updateUnderlinePosition);
+    };
+  }, [activeTab, tabRefs]);
+
   function slowScrollToTop(duration = 2000) {
   const start = window.scrollY;
   const startTime = performance.now();
@@ -96,7 +119,7 @@ export default function Tabs({
             onClick={() => handleTabChange("about")}
             className={`tab-btn${activeTab === "about" ? " active" : ""}`}
           >
-            About me
+            {translations[language].tabs.about}
           </button>
         </li>
         <li className="me-2">
@@ -105,7 +128,7 @@ export default function Tabs({
             onClick={() => handleTabChange("projects")}
             className={`tab-btn${activeTab === "projects" ? " active" : ""}`}
           >
-            Projects
+            {translations[language].tabs.projects}
           </button>
         </li>
         <li className="me-2">
@@ -114,7 +137,7 @@ export default function Tabs({
             onClick={() => handleTabChange("photos")}
             className={`tab-btn${activeTab === "photos" ? " active" : ""}`}
           >
-            Photos
+            {translations[language].tabs.photos}
           </button>
         </li>
         <li className="me-2">
@@ -123,7 +146,7 @@ export default function Tabs({
             onClick={() => handleTabChange("about Website")}
             className={`tab-btn${activeTab === "about Website" ? " active" : ""}`}
           >
-            Website
+            {translations[language].tabs["about Website"]}
           </button>
         </li>
         <li className="me-2">
@@ -132,7 +155,7 @@ export default function Tabs({
             onClick={() => handleTabChange("contact")}
             className={`tab-btn${activeTab === "contact" ? " active" : ""}`}
           >
-            Contact 
+            {translations[language].tabs.contact}
           </button>
         </li>
         {/* Animowane podkreślenie */}
