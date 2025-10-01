@@ -4,7 +4,6 @@ import PhotosTab from '../components/Tabs/PhotoTab';
 import WebsiteTab from '../components/Tabs/WebsiteTab';
 import ContactTab from '../components/Tabs/ContactTab';
 import { useRef, useEffect, useState } from "react";
-import { useRouter } from 'next/router'; // dodaj ten import
 import useDynamicBackground from '../hooks/useDynamicBackground';
 import translations from './translations';
 
@@ -18,7 +17,6 @@ export default function Tabs({
   setActiveTab,
   language,
 }) {
-  const router = useRouter(); // dodaj to
   const [selected, setSelected] = useState(null); 
   const [scrolled, setScrolled] = useState(false);
 
@@ -44,10 +42,8 @@ export default function Tabs({
       }
     };
     window.addEventListener("scroll", handleScroll);
+
     return () => window.removeEventListener("scroll", handleScroll);
-    const params = new URLSearchParams(window.location.search);
-    const tab = params.get("tab") || "about";
-    setActiveTab(tab);
     // eslint-disable-next-line
   }, []);
 
@@ -81,7 +77,7 @@ export default function Tabs({
     return () => {
       window.removeEventListener("resize", updateUnderlinePosition);
     };
-  }, [activeTab, tabRefs]);
+  }, [activeTab]);
 
   function slowScrollToTop(duration = 2000) {
   const start = window.scrollY;
@@ -98,15 +94,8 @@ export default function Tabs({
 
   // Funkcja pomocnicza do zmiany zakładki i URL
   const handleTabChange = (tab) => {
+    // Delegate state and URL handling to parent via prop
     setActiveTab(tab);
-    router.replace(
-      {
-        pathname: router.pathname,
-        query: { ...router.query, tab },
-      },
-      undefined,
-      { shallow: true }
-    );
     slowScrollToTop(200); // <-- dodaj to
   };
 

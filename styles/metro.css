@@ -1,0 +1,64 @@
+/* Styles for the MetroLine component */
+
+.metro-container {
+  /* allows the svg to size itself naturally; parent can control width */
+  width: 100%;
+}
+
+.metro-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* Main line */
+.metro-line {
+  fill: none;
+  stroke: url(#metroLineGradient);
+  stroke-linecap: butt;
+  stroke-linejoin: miter;
+  filter: url(#softGlow);
+}
+
+/* Gradient colors controlled via CSS variables */
+/*
+  Gradient colors are controlled via CSS variables set on .metro-container or parent.
+  Example:
+  .metro-container { --metro-gradient-start: #22c55e; --metro-gradient-end: #0ea5e9; }
+  You can also add theme classes and pass containerClassName from the component usage.
+*/
+.metro-container {
+  --metro-gradient-start: #1d96ff;
+  --metro-gradient-end: #8f00c8;
+}
+.metro-gradient stop:first-child { stop-color: var(--metro-gradient-start); }
+.metro-gradient stop:last-child { stop-color: var(--metro-gradient-end); }
+
+/* Station circles */
+.metro-station {
+  fill: var(--metro-station-fill, #16a34a);
+  stroke: var(--metro-station-stroke, #fff);
+  stroke-width: var(--metro-station-stroke-width, 2);
+  transition: r 150ms ease, fill 150ms ease, stroke 150ms ease;
+}
+
+/* Station labels */
+.metro-label {
+  font-size: 16px;
+  fill: #0f172a;
+  user-select: none;
+}
+
+/* Group-level customizations via data attributes */
+.metro-station-group[data-station-index="0"] .metro-station { --metro-station-fill: #073819; }
+.metro-station-group[data-station-index="5"] .metro-station { --metro-station-fill: #062c3d; }
+
+
+/* Hover/focus states */
+.metro-station-group:hover .metro-station {
+  --metro-station-stroke: #ffffff;
+  --metro-station-stroke-width: 3;
+}
+.metro-station-group:hover .metro-label {
+  font-weight: 600;
+}

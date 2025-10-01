@@ -75,6 +75,36 @@ export default function Page(props) {
     );
   };
 
+  // Background preloader: gently warm the cache after page becomes idle
+  useEffect(() => {
+    const imgs = props.images || [];
+    if (!imgs.length) return;
+
+    // Respect user preferences and very slow connections
+    const conn = typeof navigator !== 'undefined' && navigator.connection;
+    const saveData = conn && (conn.saveData || false);
+    const isVerySlow = conn && typeof conn.effectiveType === 'string' && /(^|\b)(slow-2g|2g)(\b|$)/i.test(conn.effectiveType);
+    if (saveData || isVerySlow) return;
+
+    const preloadRest = () => {
+      // Skip the ones we already preloaded in <Head>
+      imgs.slice(4).forEach((src) => {
+        const img = new Image();
+        try { img.fetchPriority = 'low'; } catch (e) {}
+        img.decoding = 'async';
+        img.loading = 'eager';
+        img.src = src;
+      });
+    };
+
+    if (typeof window.requestIdleCallback === 'function') {
+      const id = window.requestIdleCallback(preloadRest, { timeout: 3000 });
+      return () => window.cancelIdleCallback && window.cancelIdleCallback(id);
+    }
+    const t = window.setTimeout(preloadRest, 800);
+    return () => window.clearTimeout(t);
+  }, [props.images]);
+
   return (
     <>
       <Head>
@@ -85,6 +115,11 @@ export default function Page(props) {
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
         <link rel="manifest" href="/site.webmanifest" />
         <meta name="description" content="Karol Leszyński photography portfolio and IT projects. Explore creative photos and innovative tech solutions in one place." />
+
+        {/* Preload a few top gallery images for faster first paint when opening Photos tab */}
+        {(props.images || []).slice(0, 4).map((src, i) => (
+          <link key={`preload-img-${i}`} rel="preload" as="image" href={src} />
+        ))}
       </Head>
 
       <div className="language-button-container">

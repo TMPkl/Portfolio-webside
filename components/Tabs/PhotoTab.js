@@ -13,6 +13,8 @@ export default function PhotosTab({ images, selected, setSelected, language }) {
             <img
               src={src}
               alt={`Photo ${idx + 1}`}
+              loading="lazy"
+              decoding="async"
               onClick={() => setSelected(src)}
             />
           </div>
