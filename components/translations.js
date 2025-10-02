@@ -3,84 +3,70 @@ import PhotosTab from "./Tabs/PhotoTab";
 const translations = {
   en: {
     tabs: {
-        about: "About me",
-        projects: "Projects",
-        photos: "Photos",
-        "about Website": "Website",
-        contact: "Contact",
+      about: "About me",
+      projects: "Projects",
+      photos: "Photos",
+      contact: "Contact",
     },
     projectsTab: {
-        title: "My Projects",
-        content: "Here SOON will be my projects section."
+      title: "My Projects",
+      content: "Overview of selected projects.",
+      details: { view: "View", close: "Close", ariaDetails: "Details" },
+      stations: [
+        { id: "p1", name: "Portfolio", year: "2024", description: "Next.js + Tailwind", longDescription: "Portfolio with SSR and CI/CD." },
+        { id: "p2", name: "Blog", description: "MDX, SSR" },
+        { id: "p3", name: "Gallery", description: "Image lazy-loading" }
+      ]
     },
     contactTab: {
-        title: "Get in Touch",
-        content: "Soon there will be contact details here."
+      title: "Get in Touch",
+      content: "Soon there will be contact details here."
     },
     aboutTab: {
       title: "Hi, I am Karol Leszyński",
       content: "An about me section will be here soon.",
     },
-    websiteTab: {
-      title: "About Website",
-      lastUpdate: "Last update:",
-      updateNote: "Update note:",
-      
-      main_content: {
-        p1: "This website was created mostly using the vibecoding approach – a style of software development where, instead of writing code yourself, the programmer (or in this case, the \"idea person\") formulates instructions in natural language, and artificial intelligence generates ready-made application fragments based on them. This allows you to focus more on \"what should be created\" rather than \"how to do it\".",
-        p2: "This project is an experiment to see how far you can go using only this approach. It's worth noting that before starting, I had no experience in web development – all knowledge and code were created thanks to vibecoding.",
-        p3: "I am aware that this method leads to some messiness in the code and project structure – and I treat it as a natural consequence of the experiment. For me, it was more important to test the boundaries and possibilities of this style of work than to create a perfect solution.",
-        p4: "If you want to see \"behind the scenes\", feel free to browse the source code on <a href=\"https://github.com/TMPkl/Portfolio-webside\" target=\"_blank\" rel=\"noopener noreferrer\">GitHub</a>.",
-      }
-    },
     PhotosTab: {
-        title: "My Photography",
-        bio: {
-            p1: "Hi! I’m Karol and this is my photography portfolio.",
-            p2: "Visit my <a href=\"https://www.instagram.com/kl.eszczyk/\" target=\"_blank\" rel=\"noopener noreferrer\">instagram</a> for contact and more."
-        }
+      title: "My Photography",
+      bio: {
+        p1: "Hi! I’m Karol and this is my photography portfolio.",
+        p2: "Visit my <a href=\"https://www.instagram.com/kl.eszczyk/\" target=\"_blank\" rel=\"noopener noreferrer\">instagram</a> for contact and more."
+      }
     }
   },
   pl: {
     tabs: {
-        about: "O mnie",
-        projects: "Projekty",
-        photos: "Zdjęcia",
-        "about Website": "O Strona",
-        contact: "Kontakt",
+      about: "O mnie",
+      projects: "Projekty",
+      photos: "Zdjęcia",
+      contact: "Kontakt",
     },
     projectsTab: {
-        title: "Moje Projekty",
-        content: "Wkrótce pojawi się tutaj sekcja o moich projektach."
+      title: "Moje Projekty",
+      content: "Przegląd wybranych projektów.",
+      details: { view: "Zobacz", close: "Zamknij", ariaDetails: "Szczegóły" },
+      stations: [
+        { id: "p1", name: "Portfolio", year: "2024", description: "Next.js + Tailwind", longDescription: "Pełne portfolio z SSR i CI/CD." },
+        { id: "p2", name: "Blog", description: "MDX, SSR" },
+        { id: "p3", name: "Galeria", description: "Lazy-loading zdjęć" }
+      ]
     },
     contactTab: {
-        title: "Skontaktuj się ze mną",
-        content: "Wkrótce pojawią się tutaj dane kontaktowe."
+      title: "Skontaktuj się ze mną",
+      content: "Wkrótce pojawią się tutaj dane kontaktowe."
     },
     aboutTab: {
       title: "Cześć, jestem Karol Leszyński",
       content: "Wkrótce pojawi się tutaj sekcja o mnie.",
     },
-    websiteTab: {
-      title: "O stronie",
-      lastUpdate: "Ostatnia aktualizacja:",
-      updateNote: "Opis zmiany:",
-
-      main_content: {
-        p1: "Ta strona powstała głównie w oparciu o podejście vibecoding - czyli styl tworzenia oprogramowania, w którym zamiast samodzielnie pisać kod, programista (a w tym przypadku raczej \"pomysłodawca\") formułuje instrukcje w języku naturalnym, a sztuczna inteligencja generuje na ich podstawie gotowe fragmenty aplikacji. Dzięki temu można skupić się bardziej na \"co ma powstać\" niż na \"jak to zrobić\".",
-        p2: "Ten projekt jest eksperymentem mającym na celu sprawdzenie, jak daleko można zajść, używając tylko tego podejścia. Warto zauważyć, że przed rozpoczęciem nie miałem doświadczenia w tworzeniu stron internetowych - cała wiedza i kod powstały dzięki vibecoding.",
-        p3: "Jestem świadomy, że ta metoda prowadzi do pewnego bałaganu w kodzie i strukturze projektu - traktuję to jako naturalną konsekwencję eksperymentu. Dla mnie ważniejsze było przetestowanie granic i możliwości tego stylu pracy niż stworzenie idealnego rozwiązania.",
-        p4: "Jeśli chcesz zobaczyć \"za kulisami\", zapraszam do przeglądania kodu źródłowego na <a href=\"https://github.com/TMPkl/Portfolio-webside\" target=\"_blank\" rel=\"noopener noreferrer\">GitHubie</a>.",
-      }
-    },
     PhotosTab: {
-        title: "Moje Prace",
-        bio: {
-            p1: "Cześć! Nazywam się Karol i to jest moje portfolio fotograficzne.",
-            p2: "Odwiedź mój <a href=\"https://www.instagram.com/kl.eszczyk/\" target=\"_blank\" rel=\"noopener noreferrer\">instagram</a> i zobaczyć więcej."
-        }
-    // kolejne zakładki...
+      title: "Moje Prace",
+      bio: {
+        p1: "Cześć! Nazywam się Karol i to jest moje portfolio fotograficzne.",
+        p2: "Odwiedź mój <a href=\"https://www.instagram.com/kl.eszczyk/\" target=\"_blank\" rel=\"noopener noreferrer\">instagram</a>, aby zobaczyć więcej."
+      }
+    }
   }
-}};
+};
 
 export default translations;

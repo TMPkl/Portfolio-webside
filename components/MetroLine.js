@@ -1,5 +1,5 @@
 // A reusable SVG "metro line" with curved segments and stations.
-// Now deterministic: points come from props or stations.x/y; otherwise a built-in default is used.
+// Now deterministic: points come from props or stations' x/y; otherwise a built-in default is used.
 
 import { useRef, useState, useCallback } from "react";
 
@@ -23,6 +23,10 @@ export default function MetroLine({
   showCursorHalo = true,
   haloRadius = 26,
   haloDistance = 80,
+  // NEW: event callbacks for station interactions
+  onStationHover,
+  onStationLeave,
+  onStationClick,
 }) {
   // Default serpentine-like shape (logical coordinates)
   const DEFAULT_POINTS = [
@@ -99,64 +103,68 @@ export default function MetroLine({
 
   // Distance from point P to segment AB
   const distPointToSeg = (px, py, ax, ay, bx, by) => {
-    const ABx = bx - ax,
-      ABy = by - ay;
-    const APx = px - ax,
-      APy = py - ay;
+    const ABx = bx - ax, ABy = by - ay;
+    const APx = px - ax, APy = py - ay;
     const ab2 = ABx * ABx + ABy * ABy || 1e-6;
     let t = (APx * ABx + APy * ABy) / ab2;
     if (t < 0) t = 0;
     else if (t > 1) t = 1;
-    const cx = ax + t * ABx,
-      cy = ay + t * ABy;
-    const dx = px - cx,
-      dy = py - cy;
+    const cx = ax + t * ABx, cy = ay + t * ABy;
+    const dx = px - cx, dy = py - cy;
     return Math.hypot(dx, dy);
   };
 
-  const minDistToPolyline = useCallback(
-    (px, py, pts) => {
-      if (!pts || pts.length < 2) return Infinity;
-      let minD = Infinity;
-      for (let i = 0; i < pts.length - 1; i++) {
-        const a = pts[i],
-          b = pts[i + 1];
-        const d = distPointToSeg(px, py, a.x, a.y, b.x, b.y);
-        if (d < minD) minD = d;
-      }
-      return minD;
-    },
-    [distPointToSeg]
-  );
+  const minDistToPolyline = useCallback((px, py, pts) => {
+    if (!pts || pts.length < 2) return Infinity;
+    let minD = Infinity;
+    for (let i = 0; i < pts.length - 1; i++) {
+      const a = pts[i], b = pts[i + 1];
+      const d = distPointToSeg(px, py, a.x, a.y, b.x, b.y);
+      if (d < minD) minD = d;
+    }
+    return minD;
+  }, []);
 
-  const toSvgCoords = useCallback(
-    (evt) => {
-      const svg = svgRef.current;
-      if (!svg) return null;
-      const pt = svg.createSVGPoint();
-      pt.x = evt.clientX;
-      pt.y = evt.clientY;
-      const inv = svg.getScreenCTM() && svg.getScreenCTM().inverse();
-      if (!inv) return null;
-      const loc = pt.matrixTransform(inv);
-      return { x: loc.x, y: loc.y };
-    },
-    [svgRef]
-  );
+  const toSvgCoords = useCallback((evt) => {
+    const svg = svgRef.current;
+    if (!svg) return null;
+    const pt = svg.createSVGPoint();
+    pt.x = evt.clientX;
+    pt.y = evt.clientY;
+    const inv = svg.getScreenCTM() && svg.getScreenCTM().inverse();
+    if (!inv) return null;
+    const loc = pt.matrixTransform(inv);
+    return { x: loc.x, y: loc.y };
+  }, []);
 
-  const handleMouseMove = useCallback(
-    (e) => {
-      const p = toSvgCoords(e);
-      if (!p) return;
-      const d = minDistToPolyline(p.x, p.y, points);
-      setCursor({ x: p.x, y: p.y, active: d <= haloDistance });
-    },
-    [minDistToPolyline, points, haloDistance, toSvgCoords]
-  );
+  const handleMouseMove = useCallback((e) => {
+    const p = toSvgCoords(e);
+    if (!p) return;
+    const d = minDistToPolyline(p.x, p.y, points);
+    setCursor({ x: p.x, y: p.y, active: d <= haloDistance });
+  }, [minDistToPolyline, points, haloDistance, toSvgCoords]);
 
   const handleMouseLeave = useCallback(() => {
     setCursor((c) => ({ ...c, active: false }));
   }, []);
+
+  // Helper: SVG point -> client (viewport) coords
+  const svgPointToClient = useCallback((x, y) => {
+    const svg = svgRef.current;
+    if (!svg) return null;
+    const pt = svg.createSVGPoint();
+    pt.x = x; pt.y = y;
+    const m = svg.getScreenCTM?.();
+    if (!m) return null;
+    const c = pt.matrixTransform(m);
+    return { clientX: c.x, clientY: c.y };
+  }, []);
+
+  const emitStationEvt = useCallback((type, payload) => {
+    if (type === "hover" && typeof onStationHover === "function") onStationHover(payload);
+    if (type === "leave" && typeof onStationLeave === "function") onStationLeave(payload);
+    if (type === "click" && typeof onStationClick === "function") onStationClick(payload);
+  }, [onStationHover, onStationLeave, onStationClick]);
 
   return (
     <div className={`metro-container ${containerClassName}`.trim()}>
@@ -171,14 +179,7 @@ export default function MetroLine({
         onMouseLeave={showCursorHalo ? handleMouseLeave : undefined}
       >
         <defs>
-          <linearGradient
-            id="metroLineGradient"
-            className="metro-gradient"
-            x1="0%"
-            y1="0%"
-            x2="100%"
-            y2="0%"
-          >
+          <linearGradient id="metroLineGradient" className="metro-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
             <stop offset="0%" />
             <stop offset="100%" />
           </linearGradient>
@@ -220,12 +221,30 @@ export default function MetroLine({
             };
             const { dx, dy } = labelOffset(i);
             const dataId = station.id || `s${i}`;
+
+            // Prepare payload for events
+            const mkPayload = () => {
+              const client = svgPointToClient(pt.x, pt.y) || {};
+              return {
+                station,
+                index: i,
+                svgX: pt.x,
+                svgY: pt.y,
+                clientX: client.clientX,
+                clientY: client.clientY,
+                labelOffset: { dx, dy },
+              };
+            };
+
             return (
               <g
                 key={dataId}
                 className="metro-station-group"
                 data-station-id={dataId}
                 data-station-index={i}
+                onMouseEnter={() => emitStationEvt("hover", mkPayload())}
+                onMouseLeave={() => emitStationEvt("leave", mkPayload())}
+                onClick={() => emitStationEvt("click", mkPayload())}
               >
                 <circle
                   cx={pt.x}

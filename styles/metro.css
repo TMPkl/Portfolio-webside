@@ -74,3 +74,95 @@
 @media (max-width: 640px) {
   .metro-cursor-halo { filter: blur(8px); opacity: 0.8; }
 }
+
+/* Wrapper for positioning context if needed */
+.metro-details-wrapper {
+  position: relative;
+}
+
+/* Popover with project details */
+.metro-details {
+  z-index: 50;
+  max-width: 320px;
+  background: #0b1220;
+  color: #f8fafc;
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 10px;
+  padding: 12px 14px;
+  box-shadow:
+    0 12px 30px rgba(0,0,0,0.35),
+    0 0 0 1px rgba(255,255,255,0.06) inset;
+  transform: translateX(0) translateY(-50%);
+  pointer-events: auto;
+}
+
+.metro-details.side-left { transform: translateX(-100%) translateY(-50%); }
+.metro-details.side-right { transform: translateX(0) translateY(-50%); }
+
+.metro-details__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.metro-details__title { font-weight: 600; }
+.metro-details__close {
+  background: transparent;
+  border: 0;
+  color: #94a3b8;
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+}
+.metro-details__close:hover { color: #e2e8f0; }
+
+.metro-details__desc { color: #cbd5e1; font-size: 14px; }
+
+.metro-details__links a {
+  color: #93c5fd;
+  text-decoration: underline;
+}
+
+/* Arrow pointer */
+.metro-details__arrow {
+  position: absolute;
+  top: 50%;
+  width: 10px;
+  height: 10px;
+  background: inherit;
+  border-left: inherit;
+  border-top: inherit;
+  transform: translateY(-50%) rotate(45deg);
+}
+.metro-details.side-right .metro-details__arrow {
+  left: -6px;
+}
+.metro-details.side-left .metro-details__arrow {
+  right: -6px;
+}
+
+.metro-details__meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 4px 0 6px;
+  color: #94a3b8;
+  font-size: 13px;
+}
+.metro-details__year {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: rgba(148, 163, 184, 0.15);
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  color: #e2e8f0;
+  font-weight: 600;
+}
+.metro-details__long {
+  margin-top: 6px;
+  color: #cbd5e1;
+  font-size: 14px;
+  line-height: 1.45;
+}
