@@ -22,7 +22,7 @@ export default function MetroLine({
   // Halo near line
   showCursorHalo = true,
   haloRadius = 26,
-  haloDistance = 22,
+  haloDistance = 80,
 }) {
   // Default serpentine-like shape (logical coordinates)
   const DEFAULT_POINTS = [

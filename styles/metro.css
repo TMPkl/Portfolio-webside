@@ -65,9 +65,9 @@
 
 /* Cursor halo (white shadow near the line) */
 .metro-cursor-halo {
-  fill: #ffffff;
+  fill: #97d5fb5d;
   opacity: 0.85;
-  filter: blur(10px);
+  filter: blur(30px);
 }
 
 /* Optional: reduce blur on mobile for performance */
