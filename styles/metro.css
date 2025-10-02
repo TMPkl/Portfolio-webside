@@ -62,3 +62,15 @@
 .metro-station-group:hover .metro-label {
   font-weight: 600;
 }
+
+/* Cursor halo (white shadow near the line) */
+.metro-cursor-halo {
+  fill: #ffffff;
+  opacity: 0.85;
+  filter: blur(10px);
+}
+
+/* Optional: reduce blur on mobile for performance */
+@media (max-width: 640px) {
+  .metro-cursor-halo { filter: blur(8px); opacity: 0.8; }
+}

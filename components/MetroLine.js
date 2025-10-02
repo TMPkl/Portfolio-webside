@@ -1,6 +1,8 @@
 // A reusable SVG "metro line" with curved segments and stations.
 // Now deterministic: points come from props or stations.x/y; otherwise a built-in default is used.
 
+import { useRef, useState, useCallback } from "react";
+
 export default function MetroLine({
   stations = [],
   margin = { top: 60, right: 80, bottom: 40, left: 80 },
@@ -17,6 +19,10 @@ export default function MetroLine({
   fitToPoints = true,
   // Allow passing custom CSS class for theming (e.g., to set CSS variables)
   containerClassName = "",
+  // Halo near line
+  showCursorHalo = true,
+  haloRadius = 26,
+  haloDistance = 22,
 }) {
   // Default serpentine-like shape (logical coordinates)
   const DEFAULT_POINTS = [
@@ -26,22 +32,25 @@ export default function MetroLine({
     { x: 400, y: 280 },
     { x: 500, y: 400 },
     { x: 660, y: 400 },
-
-
-
-
   ];
 
   // Choose raw points source
-  const stationsHaveXY = stations.length > 0 && stations.every(s => typeof s.x === 'number' && typeof s.y === 'number');
+  const stationsHaveXY =
+    stations.length > 0 &&
+    stations.every((s) => typeof s.x === "number" && typeof s.y === "number");
   const rawPoints = Array.isArray(pointsProp) && pointsProp.length > 0
     ? pointsProp
-    : (stationsHaveXY ? stations.map(s => ({ x: s.x, y: s.y })) : DEFAULT_POINTS);
+    : stationsHaveXY
+    ? stations.map((s) => ({ x: s.x, y: s.y }))
+    : DEFAULT_POINTS;
 
   // Compute bounds and fit to viewBox with margins
-  let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+  let minX = Infinity,
+    minY = Infinity,
+    maxX = -Infinity,
+    maxY = -Infinity;
   for (const p of rawPoints) {
-    if (typeof p?.x !== 'number' || typeof p?.y !== 'number') continue;
+    if (typeof p?.x !== "number" || typeof p?.y !== "number") continue;
     if (p.x < minX) minX = p.x;
     if (p.y < minY) minY = p.y;
     if (p.x > maxX) maxX = p.x;
@@ -54,12 +63,15 @@ export default function MetroLine({
   const widthSpan = Math.max(1, maxX - minX);
   const heightSpan = Math.max(1, maxY - minY);
   const viewBoxWidth = fitToPoints
-    ? (margin.left + margin.right + widthSpan)
+    ? margin.left + margin.right + widthSpan
     : width;
   const viewBoxHeight = fitToPoints
-    ? (margin.top + margin.bottom + heightSpan)
+    ? margin.top + margin.bottom + heightSpan
     : height;
-  const points = rawPoints.map(p => ({ x: (p.x - minX) + margin.left, y: (p.y - minY) + margin.top }));
+  const points = rawPoints.map((p) => ({
+    x: (p.x - minX) + margin.left,
+    y: (p.y - minY) + margin.top,
+  }));
 
   // Build a straight polyline path: M x0 y0 L x1 y1 L ...
   const toStraightPath = (pts) => {
@@ -69,7 +81,7 @@ export default function MetroLine({
       return `M ${p.x} ${p.y}`;
     }
     const head = `M ${pts[0].x} ${pts[0].y}`;
-    const tail = pts.slice(1).map(p => `L ${p.x} ${p.y}`).join(" ");
+    const tail = pts.slice(1).map((p) => `L ${p.x} ${p.y}`).join(" ");
     return `${head} ${tail}`;
   };
 
@@ -81,17 +93,92 @@ export default function MetroLine({
     return { dx: 14 * side, dy: idx % 4 === 0 ? -16 : 22 };
   };
 
+  // SVG ref + cursor state
+  const svgRef = useRef(null);
+  const [cursor, setCursor] = useState({ x: 0, y: 0, active: false });
+
+  // Distance from point P to segment AB
+  const distPointToSeg = (px, py, ax, ay, bx, by) => {
+    const ABx = bx - ax,
+      ABy = by - ay;
+    const APx = px - ax,
+      APy = py - ay;
+    const ab2 = ABx * ABx + ABy * ABy || 1e-6;
+    let t = (APx * ABx + APy * ABy) / ab2;
+    if (t < 0) t = 0;
+    else if (t > 1) t = 1;
+    const cx = ax + t * ABx,
+      cy = ay + t * ABy;
+    const dx = px - cx,
+      dy = py - cy;
+    return Math.hypot(dx, dy);
+  };
+
+  const minDistToPolyline = useCallback(
+    (px, py, pts) => {
+      if (!pts || pts.length < 2) return Infinity;
+      let minD = Infinity;
+      for (let i = 0; i < pts.length - 1; i++) {
+        const a = pts[i],
+          b = pts[i + 1];
+        const d = distPointToSeg(px, py, a.x, a.y, b.x, b.y);
+        if (d < minD) minD = d;
+      }
+      return minD;
+    },
+    [distPointToSeg]
+  );
+
+  const toSvgCoords = useCallback(
+    (evt) => {
+      const svg = svgRef.current;
+      if (!svg) return null;
+      const pt = svg.createSVGPoint();
+      pt.x = evt.clientX;
+      pt.y = evt.clientY;
+      const inv = svg.getScreenCTM() && svg.getScreenCTM().inverse();
+      if (!inv) return null;
+      const loc = pt.matrixTransform(inv);
+      return { x: loc.x, y: loc.y };
+    },
+    [svgRef]
+  );
+
+  const handleMouseMove = useCallback(
+    (e) => {
+      const p = toSvgCoords(e);
+      if (!p) return;
+      const d = minDistToPolyline(p.x, p.y, points);
+      setCursor({ x: p.x, y: p.y, active: d <= haloDistance });
+    },
+    [minDistToPolyline, points, haloDistance, toSvgCoords]
+  );
+
+  const handleMouseLeave = useCallback(() => {
+    setCursor((c) => ({ ...c, active: false }));
+  }, []);
+
   return (
     <div className={`metro-container ${containerClassName}`.trim()}>
       <svg
+        ref={svgRef}
         viewBox={`0 0 ${viewBoxWidth} ${viewBoxHeight}`}
         className="metro-svg"
         {...(!responsive ? { width, height } : {})}
         role="img"
         aria-label="Mapa projektów w stylu metra"
+        onMouseMove={showCursorHalo ? handleMouseMove : undefined}
+        onMouseLeave={showCursorHalo ? handleMouseLeave : undefined}
       >
         <defs>
-          <linearGradient id="metroLineGradient" className="metro-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+          <linearGradient
+            id="metroLineGradient"
+            className="metro-gradient"
+            x1="0%"
+            y1="0%"
+            x2="100%"
+            y2="0%"
+          >
             <stop offset="0%" />
             <stop offset="100%" />
           </linearGradient>
@@ -104,6 +191,18 @@ export default function MetroLine({
           </filter>
         </defs>
 
+        {/* Halo layer (rendered under the line) */}
+        {showCursorHalo && cursor.active && (
+          <g className="metro-cursor-halo-layer" pointerEvents="none">
+            <circle
+              className="metro-cursor-halo"
+              cx={cursor.x}
+              cy={cursor.y}
+              r={haloRadius}
+            />
+          </g>
+        )}
+
         {/* The main metro line path */}
         <path
           d={pathD}
@@ -114,7 +213,11 @@ export default function MetroLine({
         {/* Stations */}
         <g className="metro-stations">
           {points.map((pt, i) => {
-            const station = stations[i] || { name: `Stacja ${i + 1}`, description: "", id: `s${i}` };
+            const station = stations[i] || {
+              name: `Stacja ${i + 1}`,
+              description: "",
+              id: `s${i}`,
+            };
             const { dx, dy } = labelOffset(i);
             const dataId = station.id || `s${i}`;
             return (
@@ -130,7 +233,12 @@ export default function MetroLine({
                   r={stationSize}
                   className="metro-station"
                 >
-                  <title>{station.name + (station.description ? ` — ${station.description}` : "")}</title>
+                  <title>
+                    {station.name +
+                      (station.description
+                        ? ` — ${station.description}`
+                        : "")}
+                  </title>
                 </circle>
                 <text
                   x={pt.x + dx}
