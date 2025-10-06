@@ -1,5 +1,5 @@
 .footer {
-  background: #3f4949;
+  background: #404c4e;
   color: #7a9899;
   font-size: 1rem;
   padding: 2rem 0 1.2rem 0;
@@ -23,7 +23,7 @@
   
 }
 .footer-sep {
-  color: #b0b0b0;
+  color: #9b96b5;
   margin: 0 0.3rem;
   user-select: none;
 }

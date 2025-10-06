@@ -44,22 +44,23 @@
 
 /* Station circles */
 .metro-station {
-  fill: var(--metro-station-fill, #16a34a);
-  stroke: var(--metro-station-stroke, #fff);
+  fill: var(--metro-station-fill, #399d9b);
+  stroke: var(--metro-station-stroke, #a7caed);
   stroke-width: var(--metro-station-stroke-width, 2);
   transition: r 150ms ease, fill 150ms ease, stroke 150ms ease;
 }
 
 /* Station labels */
 .metro-label {
-  font-size: 16px;
+  font-size: 12px;
   fill: #bdf1ee;
   user-select: none;
+  text-shadow: #7aa1ae 1px 1px 2px, #0f172a76 2px 2px 3px;
 }
 
 /* Group-level customizations via data attributes */
-.metro-station-group[data-station-index="0"] .metro-station { --metro-station-fill: #073819; }
-.metro-station-group[data-station-index="5"] .metro-station { --metro-station-fill: #062c3d; }
+.metro-station-group[data-station-index="0"] .metro-station { --metro-station-fill: #000000; }
+.metro-station-group[data-station-index="5"] .metro-station { --metro-station-fill: #000000; }
 
 
 /* Hover/focus states */
@@ -108,15 +109,24 @@
 .metro-details.side-right { transform: translateX(0) translateY(-50%); }
 
 .metro-details__header {
+  position: relative;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-  margin-bottom: 8px;
+  justify-content: center;
+  margin-bottom: 10px;
+  min-height: 32px;
 }
 
-.metro-details__title { font-weight: 600; }
+.metro-details__title {
+  font-weight: 700;
+  font-size: 1.4rem;
+  text-align: center;
+  width: 100%;
+}
 .metro-details__close {
+  position: absolute;
+  top: 0;
+  right: 0;
   background: transparent;
   border: 0;
   color: #94a3b8;

@@ -19,8 +19,9 @@ const baseStations = [
   },
   {
     id: "p4",
-    name: "Lorem Ipsum 4",
-    repoUrl: "https://github.com/TMPkl/gallery",
+    name: "KaRoast",
+    year: "pending",
+    techStack: ["PCB design", "ESP32", "FreeRTOS", "IoT"],
   },
   {
     id: "p5",
@@ -48,7 +49,8 @@ const localizedDescriptions = {
       longDescription: "A compact, portable gaming console inspired by classic handheld devices. Built around the ESP32 microcontroller, it features a custom-designed PCB with OTA game launcher for seamless games changes.",
     },
     p4: {
-      description: "Gallery",
+      description: "Coffee Roaster Controller",
+      longDescription: "Controller for a coffee roaster machine, managing power on heating elements, and recording temperature data for roasting logger. Wireless connectivity for remote monitoring and control.",
     },
     p5: { 
       description: "Lorem Ipsum 5",
@@ -68,10 +70,11 @@ const localizedDescriptions = {
       longDescription: "Projekt związany z kursem Projektowanie Systemowe i Współbieżne. Opisana procedura propagacji informacji Producent->Dystrybutor<->Klient oparta na kolejkach IPC dla napisana dla Linuxa  ",
     },
     p3: {
-      description: "Image lazy-loading",
+      description: "Przenośna konsola do gier retro z ESP32 i zaprojektowanym i wykonanym PCB",
+      longDescription: "Konsola zbudowana na bazie mikrokontrolera ESP32, z funkcją OTA do zmiany gier za pomocą przeglądarkowego launchera..",
     },
     p4: {
-      description: "Gallery",
+      description: "Lorem Ipsum 4",
     },
     p5: { 
       description: "Lorem Ipsum 5",

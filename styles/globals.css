@@ -14,7 +14,7 @@
   font-size: 0.9rem;               /* text-sm */
   font-weight: 500;                  /* font-medium */
   text-align: center;                /* text-center */                    /* domyślny kolor tekstu */
-  color: #57918e;                    /* text-gray-200 */
+  color: #4fa19d;                    /* text-gray-200 */
 }
 
 .tab-content {
@@ -75,7 +75,7 @@
   z-index: 2;
 }
 .menu-bar--active {
-  background:  #183d42;
+  background:  #245a61;
   
 }
 .menu-bar--scrolled.menu-bar--active {
@@ -88,7 +88,7 @@
   font-weight: bold;
   margin-bottom: 1rem;
   text-align: center;
-  color: #295c63;
+  color: #34808b;
   margin-top: 2rem;
   margin-bottom: 3rem;
 }
@@ -114,7 +114,7 @@
 .short-text-block {
   text-align: middle;
   margin-bottom: 1.8rem;
-  color: #6e8285;
+  color: #aebac5;
 }
 
 
@@ -122,20 +122,19 @@
   text-indent: 2em;
   text-align: left;
   margin-bottom: 1.8rem;
-  color: #6e8285;
+  color: #aebac5;
 }
 .text-block a, .short-text-block a {
-  color: #83896e;
+  color: #aab094;
   text-decoration: underline;
   font-weight: bold;
   transition: color 0.5s;
 }
 .text-block a:hover, .short-text-block a:hover {
   text-decoration: none;
-  color: #3a3d2f;
+  color: #636850;
 }
 
-/* Stopka */
 
 
 .text-block-alt {
@@ -162,7 +161,7 @@
   top: 90%;       /* Odległość od górnej krawędzi okna */
   right: 20px;     /* Odległość od prawej krawędzi okna */
   z-index: 1000;   /* Zapewnia, że element będzie nad innymi */
-  background-color: #5bb4ad77;
+  background-color: #625f69;
   
 }
 }

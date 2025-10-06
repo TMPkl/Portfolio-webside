@@ -15,7 +15,7 @@ export default function useDynamicBackground(backgroundRef) {
       const b = 107;
       if (backgroundRef.current) {
         backgroundRef.current.style.backgroundImage =
-          `linear-gradient(to left top, rgb(${r},${g},${b}), #000000ff)`;
+          `linear-gradient(to left top, rgb(${r},${g},${b}), #212121ff)`;
       }
     }
     window.addEventListener("scroll", onScroll);
