@@ -4,7 +4,7 @@ export default  function getTitle(tab) {
     'about': 'Developer & Photographer',
     'projects': 'My projects',
     'photos': 'My photos',
-    'about Website': 'About this website',
+  'website': 'About this website',
     'contact': 'Contact me',
   };
   return map[tab] ? `${map[tab]} | ${base}` : base;

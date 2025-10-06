@@ -1,10 +1,18 @@
 import { useCallback, useState, useRef, useEffect } from "react";
 import MetroLine from "../../MetroLine";
 
+const DEFAULT_DETAILS_LABELS = {
+  view: "View",
+  close: "Close",
+  ariaDetails: "Details",
+  repo: "Repository",
+};
+
 export default function MetroWithDetails({
   language = "pl",
   stations = [],
   points = null,
+  detailLabels = DEFAULT_DETAILS_LABELS,
   // forward any MetroLine props
   ...metroProps
 }) {
@@ -90,21 +98,42 @@ export default function MetroWithDetails({
           className={`metro-details ${popover.pinned ? "is-pinned" : ""} side-${popover.side}`}
           style={{ position: "absolute", left: popover.x, top: popover.y }}
           role="dialog"
-          aria-label={`Szczegóły: ${popover.station.name}`}
+          aria-label={`${detailLabels?.ariaDetails || DEFAULT_DETAILS_LABELS.ariaDetails}: ${popover.station.name}`}
         >
           <div className="metro-details__header">
             <strong className="metro-details__title">{popover.station.name}</strong>
             <button
               className="metro-details__close"
               onClick={() => setPopover({ visible: false, pinned: false, x: 0, y: 0, side: "right", station: null })}
-              aria-label="Zamknij"
+              aria-label={detailLabels?.close || DEFAULT_DETAILS_LABELS.close}
             >
               ×
             </button>
           </div>
-          {popover.station.year && (
+          {(popover.station.year || popover.station.repoUrl) && (
             <div className="metro-details__meta">
-              <span className="metro-details__year">{popover.station.year}</span>
+              {popover.station.year && (
+                <span className="metro-details__year">{popover.station.year}</span>
+              )}
+              {popover.station.repoUrl && (
+                <a
+                  href={popover.station.repoUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="metro-details__repo"
+                >
+                  {popover.station.repoLabel || detailLabels?.repo || DEFAULT_DETAILS_LABELS.repo}
+                </a>
+              )}
+            </div>
+          )}
+          {Array.isArray(popover.station.techStack) && popover.station.techStack.length > 0 && (
+            <div className="metro-details__stack" aria-label="Technology stack">
+              {popover.station.techStack.map((tech, idx) => (
+                <span key={`${popover.station.id || popover.station.name || "tech"}-${idx}`} className="metro-details__stack-item">
+                  {tech}
+                </span>
+              ))}
             </div>
           )}
           {popover.station.description && (
@@ -115,8 +144,8 @@ export default function MetroWithDetails({
           )}
           {popover.station.href && (
             <div className="metro-details__links">
-              <a href={popover.station.href} target="_blank" rel="noreferrer">
-                Zobacz
+              <a href={popover.station.href} target="_blank" rel="noopener noreferrer">
+                {detailLabels?.view || DEFAULT_DETAILS_LABELS.view}
               </a>
             </div>
           )}

@@ -17,6 +17,9 @@ export default function Tabs({
   setActiveTab,
   language,
 }) {
+  const fallbackLang = translations.pl;
+  const langPack = translations[language] || fallbackLang;
+  const tabLabels = langPack.tabs || fallbackLang.tabs;
   const [selected, setSelected] = useState(null); 
   const [scrolled, setScrolled] = useState(false);
 
@@ -24,7 +27,7 @@ export default function Tabs({
     about: useRef(null),
     projects: useRef(null),
     photos: useRef(null),
-    "about Website": useRef(null),
+    website: useRef(null),
     contact: useRef(null),
   };
   const [underlineStyle, setUnderlineStyle] = useState({ left: 0, width: 0 });
@@ -108,7 +111,7 @@ export default function Tabs({
             onClick={() => handleTabChange("about")}
             className={`tab-btn${activeTab === "about" ? " active" : ""}`}
           >
-            {translations[language].tabs.about}
+            {tabLabels.about}
           </button>
         </li>
         <li className="me-2">
@@ -117,7 +120,7 @@ export default function Tabs({
             onClick={() => handleTabChange("projects")}
             className={`tab-btn${activeTab === "projects" ? " active" : ""}`}
           >
-            {translations[language].tabs.projects}
+            {tabLabels.projects}
           </button>
         </li>
         <li className="me-2">
@@ -126,16 +129,16 @@ export default function Tabs({
             onClick={() => handleTabChange("photos")}
             className={`tab-btn${activeTab === "photos" ? " active" : ""}`}
           >
-            {translations[language].tabs.photos}
+            {tabLabels.photos}
           </button>
         </li>
         <li className="me-2">
           <button
-            ref={tabRefs["about Website"]}
-            onClick={() => handleTabChange("about Website")}
-            className={`tab-btn${activeTab === "about Website" ? " active" : ""}`}
+            ref={tabRefs.website}
+            onClick={() => handleTabChange("website")}
+            className={`tab-btn${activeTab === "website" ? " active" : ""}`}
           >
-            {translations[language].tabs["about Website"]}
+            {tabLabels.website}
           </button>
         </li>
         <li className="me-2">
@@ -144,7 +147,7 @@ export default function Tabs({
             onClick={() => handleTabChange("contact")}
             className={`tab-btn${activeTab === "contact" ? " active" : ""}`}
           >
-            {translations[language].tabs.contact}
+            {tabLabels.contact}
           </button>
         </li>
         {/* Animowane podkreślenie */}
@@ -163,11 +166,14 @@ export default function Tabs({
         {activeTab === "photos" && (
           <PhotosTab images={images} selected={selected} setSelected={setSelected} language={language} />
         )}
-        {activeTab === "about Website" && <WebsiteTab 
-                                              commitSha={commitSha}
-                                              commitDate={commitDate}
-                                              commitMessage={commitMessage}
-                                              language={language}/>}
+        {activeTab === "website" && (
+          <WebsiteTab
+            commitSha={commitSha}
+            commitDate={commitDate}
+            commitMessage={commitMessage}
+            language={language}
+          />
+        )}
         {activeTab === "contact" && <ContactTab  language={language}/>}
       </div>
       

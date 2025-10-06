@@ -35,6 +35,13 @@ export async function getStaticProps() {
 }
 
 
+const normalizeTab = (value) => {
+  if (!value || typeof value !== "string") return value;
+  const trimmed = value.trim();
+  if (trimmed.toLowerCase() === "about website") return "website";
+  return trimmed;
+};
+
 export default function Page(props) {
   const [activeTab, setActiveTab] = useState('about');
   const [language, setLanguage] = useState('pl');
@@ -44,7 +51,7 @@ export default function Page(props) {
   useEffect(() => {
     if (router.isReady) {
       const { tab, lang } = router.query;
-      if (tab && typeof tab === "string") setActiveTab(tab);
+  if (tab && typeof tab === "string") setActiveTab(normalizeTab(tab));
       if (lang && typeof lang === "string") setLanguage(lang);
     }
   }, [router.isReady, router.query]);
@@ -64,11 +71,12 @@ export default function Page(props) {
 
   // Funkcja do zmiany zakładki i aktualizacji URL (przekaż ją do Tabs)
   const handleTabChange = (tab) => {
-    setActiveTab(tab);
+    const nextTab = normalizeTab(tab);
+    setActiveTab(nextTab);
     router.replace(
       {
         pathname: router.pathname,
-        query: { ...router.query, tab, lang: language },
+        query: { ...router.query, tab: nextTab, lang: language },
       },
       undefined,
       { shallow: true }

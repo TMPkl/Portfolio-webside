@@ -5,7 +5,7 @@ import { useRef, useState, useCallback } from "react";
 
 export default function MetroLine({
   stations = [],
-  margin = { top: 60, right: 80, bottom: 40, left: 80 },
+  margin,
   stationColor = "#16a34a",
   stationSize = 8,
   strokeWidth = 6,
@@ -38,6 +38,9 @@ export default function MetroLine({
     { x: 660, y: 400 },
   ];
 
+  const DEFAULT_MARGIN = { top: 60, right: "auto", bottom: 40, left: "auto" };
+  const mergedMargin = { ...DEFAULT_MARGIN, ...(margin || {}) };
+
   // Choose raw points source
   const stationsHaveXY =
     stations.length > 0 &&
@@ -66,15 +69,39 @@ export default function MetroLine({
 
   const widthSpan = Math.max(1, maxX - minX);
   const heightSpan = Math.max(1, maxY - minY);
+  const sideSpaceFraction = 0.075;
+  const autoSideMargin = fitToPoints
+    ? (widthSpan * sideSpaceFraction) / (1 - 2 * sideSpaceFraction)
+    : 0;
+
+  const resolvedTopMargin =
+    typeof mergedMargin.top === "number" ? mergedMargin.top : DEFAULT_MARGIN.top;
+  const resolvedBottomMargin =
+    typeof mergedMargin.bottom === "number"
+      ? mergedMargin.bottom
+      : DEFAULT_MARGIN.bottom;
+  const resolvedLeftMargin =
+    typeof mergedMargin.left === "number" ? mergedMargin.left : autoSideMargin;
+  const resolvedRightMargin =
+    typeof mergedMargin.right === "number" ? mergedMargin.right : autoSideMargin;
+
+  const extraHaloSpace = showCursorHalo ? Math.max(haloRadius, haloDistance) : 0;
+  const effectiveMargin = {
+    top: resolvedTopMargin,
+    right: resolvedRightMargin,
+    bottom: resolvedBottomMargin + extraHaloSpace,
+    left: resolvedLeftMargin,
+  };
+
   const viewBoxWidth = fitToPoints
-    ? margin.left + margin.right + widthSpan
+    ? effectiveMargin.left + effectiveMargin.right + widthSpan
     : width;
   const viewBoxHeight = fitToPoints
-    ? margin.top + margin.bottom + heightSpan
+    ? effectiveMargin.top + effectiveMargin.bottom + heightSpan
     : height;
   const points = rawPoints.map((p) => ({
-    x: (p.x - minX) + margin.left,
-    y: (p.y - minY) + margin.top,
+    x: (p.x - minX) + effectiveMargin.left,
+    y: (p.y - minY) + effectiveMargin.top,
   }));
 
   // Build a straight polyline path: M x0 y0 L x1 y1 L ...
@@ -92,10 +119,7 @@ export default function MetroLine({
   const pathD = toStraightPath(points);
 
   // Helper: place label offsets alternating sides to reduce overlap
-  const labelOffset = (idx) => {
-    const side = idx % 2 === 0 ? 1 : -1;
-    return { dx: 14 * side, dy: idx % 4 === 0 ? -16 : 22 };
-  };
+  const labelOffset = () => ({ dx: 0, dy: stationSize + 18 });
 
   // SVG ref + cursor state
   const svgRef = useRef(null);
@@ -214,12 +238,9 @@ export default function MetroLine({
         {/* Stations */}
         <g className="metro-stations">
           {points.map((pt, i) => {
-            const station = stations[i] || {
-              name: `Stacja ${i + 1}`,
-              description: "",
-              id: `s${i}`,
-            };
-            const { dx, dy } = labelOffset(i);
+            const station = stations[i];
+            if (!station) return null;
+            const { dx, dy } = labelOffset();
             const dataId = station.id || `s${i}`;
 
             // Prepare payload for events
@@ -263,8 +284,8 @@ export default function MetroLine({
                   x={pt.x + dx}
                   y={pt.y + dy}
                   className="metro-label"
-                  textAnchor={dx > 0 ? "start" : "end"}
-                  alignmentBaseline="middle"
+                  textAnchor="middle"
+                  alignmentBaseline="hanging"
                 >
                   {station.name}
                 </text>

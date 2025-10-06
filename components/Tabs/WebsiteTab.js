@@ -1,22 +1,36 @@
-import translations from "../translations"; 
+import translations from "../translations";
+
 export default function WebsiteTab({ commitSha, commitDate, commitMessage, language }) {
+  const fallbackLang = translations.pl;
+  const langPack = translations[language] || fallbackLang;
+  const websiteCopy = langPack.websiteTab || fallbackLang.websiteTab;
+  const content = websiteCopy.main_content || {};
+
+  const paragraphs = [content.p1, content.p2, content.p3, content.p4].filter(Boolean);
+  const formattedDate = commitDate ? new Date(commitDate).toLocaleDateString() : null;
+  const shortSha = commitSha ? commitSha.slice(0, 7) : null;
+  const updateLabel = websiteCopy.lastUpdate || fallbackLang.websiteTab.lastUpdate;
+  const noteLabel = websiteCopy.updateNote || fallbackLang.websiteTab.updateNote;
+
   return (
     <div>
-      <h2 className="tab-title" >
-        {translations[language].websiteTab.title}
+      <h2 className="tab-title">
+        {websiteCopy.title}
       </h2>
       <div className="main-content">
-            <div className="text-block" dangerouslySetInnerHTML={{ __html: translations[language].websiteTab.main_content.p1 }}/>
-            <div className="text-block" dangerouslySetInnerHTML={{ __html: translations[language].websiteTab.main_content.p2 }}/>
-            <div className="text-block" dangerouslySetInnerHTML={{ __html: translations[language].websiteTab.main_content.p3 }}/>
-            <div className="text-block" dangerouslySetInnerHTML={{ __html: translations[language].websiteTab.main_content.p4 }}/>
+        {paragraphs.map((html, idx) => (
+          <div
+            key={`website-copy-${idx}`}
+            className="text-block"
+            dangerouslySetInnerHTML={{ __html: html }}
+          />
+        ))}
         <div className="text-block-alt">
-          {translations[language].websiteTab.lastUpdate}{" "}
-          <b>{commitDate ? new Date(commitDate).toLocaleDateString() : "unable to access DATE"}</b>{" "}
-          {commitSha ? commitSha.slice(0, 7) : ""}{" "}
-          <br/>
-          {translations[language].websiteTab.updateNote}{" "}
-          <b>{commitMessage ? `${commitMessage}` : "unable to access TITLE"}</b>{" "}
+          {updateLabel}{" "}
+          <b>{formattedDate ?? "unable to access DATE"}</b>{shortSha ? ` (${shortSha})` : ""}
+          <br />
+          {noteLabel}{" "}
+          <b>{commitMessage || "unable to access TITLE"}</b>
         </div>
       </div>
     </div>
