@@ -11,7 +11,7 @@ const translations = {
     },
     projectsTab: {
       title: "My Projects",
-      content: "Overview of selected projects.",
+      content: "Overview of selected projects illustrated as Metro Stations.",
       details: { view: "View", close: "Close", ariaDetails: "Details", repo: "Repository" }
     },
     contactTab: {
@@ -51,7 +51,7 @@ const translations = {
     },
     projectsTab: {
       title: "Moje Projekty",
-      content: "Przegląd wybranych projektów.",
+      content: "Przegląd projektów ilustrowanych jako stacje metra.",
       details: { view: "Zobacz", close: "Zamknij", ariaDetails: "Szczegóły", repo: "Repozytorium" }
     },
     contactTab: {

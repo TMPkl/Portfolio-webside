@@ -25,8 +25,10 @@ const baseStations = [
   },
   {
     id: "p5",
-    name: "Lorem Ipsum 5",
-    repoUrl: "https://github.com/TMPkl/gallery",
+    name: "BioWeb",
+    repoUrl: "https://github.com/TMPkl/Portfolio-website",
+    year: "pending",
+    techStack: ["Next.js", "React", "CSS", "VibeCoding"],
   },
   {
     id: "p6",
@@ -53,7 +55,8 @@ const localizedDescriptions = {
       longDescription: "Controller for a coffee roaster machine, managing power on heating elements, and recording temperature data for roasting logger. Wireless connectivity for remote monitoring and control.",
     },
     p5: { 
-      description: "Lorem Ipsum 5",
+      description: "Portfolio and Biography Website",
+      longDescription: "A personal website showcasing projects, skills, and experiences in tech as well as a photography portfolio.",
     },
     p6: {
       description: "End Point",
@@ -74,14 +77,16 @@ const localizedDescriptions = {
       longDescription: "Konsola zbudowana na bazie mikrokontrolera ESP32, z funkcją OTA do zmiany gier za pomocą przeglądarkowego launchera..",
     },
     p4: {
-      description: "Lorem Ipsum 4",
+      description: "Sterownik pieca do kawy",
+      longDescription: "Sterownik pieca do palenia kawy, zarządzający zasilaniem grzałek oraz rejestrujący dane temperaturowe do loggera wypału. Łączność bezprzewodowa do zdalnego monitoringu i sterowania.",
     },
-    p5: { 
-      description: "Lorem Ipsum 5",
+    p5: {
+      description: "Strona z portfolio i biografią",
+      longDescription: "Osobista strona internetowa prezentująca projekty, umiejętności i doświadczenia w dziedzinie technologii, a także portfolio fotograficzne.",
     },
     p6: {
       description: "End Point",
-      longDescription: "Project line in progress, will be more hopefully soon.",
+      longDescription: "Projekty w toku, mam nadzieję, że wkrótce pojawi się więcej.",
     },
   },
 };

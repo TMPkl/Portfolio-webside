@@ -272,13 +272,12 @@ export default function MetroLine({
                   cy={pt.y}
                   r={stationSize}
                   className="metro-station"
+                  aria-label={
+                    station.description
+                      ? `${station.name} — ${station.description}`
+                      : station.name
+                  }
                 >
-                  <title>
-                    {station.name +
-                      (station.description
-                        ? ` — ${station.description}`
-                        : "")}
-                  </title>
                 </circle>
                 <text
                   x={pt.x + dx}
