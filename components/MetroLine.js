@@ -19,11 +19,9 @@ export default function MetroLine({
   fitToPoints = true,
   // Allow passing custom CSS class for theming (e.g., to set CSS variables)
   containerClassName = "",
-  // Halo near line
   showCursorHalo = true,
-  haloRadius = 26,
-  haloDistance = 80,
-  // NEW: event callbacks for station interactions
+  haloRadius = 40,
+  haloDistance = 90,
   onStationHover,
   onStationLeave,
   onStationClick,
@@ -123,7 +121,7 @@ export default function MetroLine({
 
   // SVG ref + cursor state
   const svgRef = useRef(null);
-  const [cursor, setCursor] = useState({ x: 0, y: 0, active: false });
+  const [cursor, setCursor] = useState({ x: 0, y: 0, active: false, brightness: 0 });
 
   // Distance from point P to segment AB
   const distPointToSeg = (px, py, ax, ay, bx, by) => {
@@ -165,11 +163,14 @@ export default function MetroLine({
     const p = toSvgCoords(e);
     if (!p) return;
     const d = minDistToPolyline(p.x, p.y, points);
-    setCursor({ x: p.x, y: p.y, active: d <= haloDistance });
+    const isActive = d <= haloDistance;
+    // Calculate brightness based on distance - closer = brighter
+    const brightness = isActive ? Math.max(0.2, 1 - (d / haloDistance)) : 0;
+    setCursor({ x: p.x, y: p.y, active: isActive, brightness });
   }, [minDistToPolyline, points, haloDistance, toSvgCoords]);
 
   const handleMouseLeave = useCallback(() => {
-    setCursor((c) => ({ ...c, active: false }));
+    setCursor((c) => ({ ...c, active: false, brightness: 0 }));
   }, []);
 
   // Helper: SVG point -> client (viewport) coords
@@ -224,6 +225,7 @@ export default function MetroLine({
               cx={cursor.x}
               cy={cursor.y}
               r={haloRadius}
+              style={{ opacity: cursor.brightness }}
             />
           </g>
         )}
